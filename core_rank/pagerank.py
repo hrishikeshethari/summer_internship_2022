@@ -14,7 +14,7 @@ class PageRank:
     def rank(self):
         for key, node in self.graph.nodes(data=True):
             #breakpoint()  
-            if self.directed and key in self.good_nodes:
+            if key in self.good_nodes:
                 self.ranks[key] = 1/float(self.V)
             else:
                 self.ranks[key] = 0

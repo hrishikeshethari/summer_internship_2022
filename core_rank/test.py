@@ -1,47 +1,56 @@
 import networkx as nx
 import numpy as np 
 import math 
+import operator
 import matplotlib.pyplot as plt 
+import corerank
 import core_rank
 from pagerank import PageRank
 
 def flatten_and_unique(l):
     return set([item for sublist in l for item in sublist])
 
-def main():
+def generate_random_graph(number_of_nodes):
     import random 
     nodes = [_ for _ in range(10)]
         
-    edges = [(random.choice(nodes), random.choice(nodes)) for _ in range(20)]
+    edges = [(random.choice(nodes), random.choice(nodes)) for _ in range(number_of_nodes)]
     unique_edges = []
     for edge in edges:
         if edge[0] != edge[1]:
             unique_edges.append(edge)
-            
+
+    return unique_edges
+
+def main():
+    unique_edges = [(3, 4), (5, 2), (3, 1), (6, 7), (6, 8), (6, 5), (5, 1), (1, 9), (2, 5), (0, 9)]
+    print(unique_edges)      
     nodes = flatten_and_unique(unique_edges)
                        
     good_set = [1, 2, 3]
     
     # initialize graph
     G, nstart = core_rank.init_graph(good_set, unique_edges)
-    # PAGERANK FOR COMPARISON  
-    p = PageRank(G, True, good_set)
-    print('Comparative pagerank different implementation')
-    print(p.print_result())
+
     nx.draw(G, with_labels=True)
     plt.savefig("graph.png")
+    
     # CORE BASED RANK 
-    corebased_rank = core_rank.pagerank(G, nstart)
-    core_sorted = sorted(corebased_rank.items())
+
     page_rank = core_rank.pagerank(G)
-    page_rank_sorted = sorted(page_rank.items())
-    print('page rank')
+    page_rank_sorted = sorted(page_rank.items(), key = operator.itemgetter(1), reverse = True)
+    print(' page rank modified -> core rank from nx')
     for k, v in page_rank_sorted:
         print(f'{k} --> {v}')
     print("-"*20)
-    print('core rank')       
-    for k, v in core_sorted:
-        print(f'{k} --> {v}')
+    print('page rank from nx library')
+    page_rank_nx = nx.pagerank(G)
+    for k, v in page_rank_nx.items():
+        print(f'{k} --> {v} ')
+    print('-'*20)
+    print('core rank custom implemented')
+       
+    corebased_rank = corerank.core_rank(unique_edges, good_set)
 
 
 if __name__ == "__main__":

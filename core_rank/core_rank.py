@@ -10,7 +10,9 @@ def init_graph(good_core_nodes: List, edges: List[Tuple]):
     number_of_nodes = len(nodes)
     nstart_corebased = {idx : 0  for idx in range(number_of_nodes)}
     for idx, node in enumerate(nodes):
-        nstart_corebased[idx] = 1/number_of_nodes
+        if node in good_core_nodes:
+            nstart_corebased[idx] = 1/number_of_nodes
+    
     return G, nstart_corebased
         
 def pagerank(
