@@ -2,20 +2,29 @@ import numpy as np
 import operator
 import networkx as nx
 import matplotlib.pyplot as plt
+import itertools
 import pylab
 from collections import defaultdict
 import test 
 
 
 def core_rank(edges, good_nodes, beta = 0.85, MAX_ITER = 100):
-    maxer = 10
-    nodes_dict = defaultdict(set)
+    """
+    PARAMATERS
+    ----------
+    edges : List of edges (tuples), good_nodes : List of good core nodes, 
+    
+    RETURNS
+    ---------- 
+    SORTED CORE BASED RANKS OF NODES 
+    """
+    nodes_dict = defaultdict(lambda: set())
     #edges = test.generate_random_graph(10)
     for edge in edges:
         nodes_dict[edge[0]].add(edge[1])
-        nodes_dict[edge[1]].add(edge[0])
+        #nodes_dict[edge[1]].add(edge[0])
     #print(nodes_dict)
-
+    maxer = len(set(itertools.chain(*edges)))
     # M is the Transition Matrix
     # v is the matrix that defines the probability of the random surfer of being at any paricular node
     M = np.zeros((maxer+1, maxer+1))
@@ -24,7 +33,10 @@ def core_rank(edges, good_nodes, beta = 0.85, MAX_ITER = 100):
     # Defining the Transition matrix
     for from_node in nodes_dict:
         length = len(nodes_dict[from_node])
-        fraction = 1/length
+        if length:
+            fraction = 1/length
+        else:
+            fraction = 0
         for to_node in nodes_dict[from_node]:
             M[to_node][from_node] = fraction
 
@@ -58,6 +70,8 @@ def core_rank(edges, good_nodes, beta = 0.85, MAX_ITER = 100):
             page_rank_score.append([i, v[i]])
 
     sorted_core_rank_score = sorted(page_rank_score, key = operator.itemgetter(1), reverse = True)
-
+    min_rank = min([ele[1] for ele in sorted_core_rank_score])
+    #breakpoint()
+    page_rank_score = [[ele[0], ele[1]/min_rank] for ele in sorted_core_rank_score]
     for idx, ele in sorted_core_rank_score:
         print(f'{idx} --> {ele}')

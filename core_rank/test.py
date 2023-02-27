@@ -23,11 +23,11 @@ def generate_random_graph(number_of_nodes):
     return unique_edges
 
 def main():
-    unique_edges = [(3, 4), (5, 2), (3, 1), (6, 7), (6, 8), (6, 5), (5, 1), (1, 9), (2, 5), (0, 9)]
+    unique_edges = [(3, 5), (1, 5), (2, 5), (4, 5), (5, 6), (7, 6), (8, 6), (9, 7), (10, 7), (11, 8), (12, 8)]
     print(unique_edges)      
     nodes = flatten_and_unique(unique_edges)
                        
-    good_set = [1, 2, 3]
+    good_set = [10,11, 7]
     
     # initialize graph
     G, nstart = core_rank.init_graph(good_set, unique_edges)

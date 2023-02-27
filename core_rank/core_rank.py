@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 def init_graph(good_core_nodes: List, edges: List[Tuple]):
-    G = nx.Graph()
+    G = nx.DiGraph()
     G.add_edges_from(edges)
     nodes = set(itertools.chain(*edges))
     number_of_nodes = len(nodes)
