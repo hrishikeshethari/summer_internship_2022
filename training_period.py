@@ -5,6 +5,8 @@ import networkx as nx
 from datetime import datetime, timedelta
 from itertools import combinations
 from Build_reverse_identity_dictionary import Build_reverse_identity_dictionary
+import csv
+import os
 import concurrent.futures
 import matplotlib.pyplot as plt
 
@@ -1070,6 +1072,7 @@ class Task2:
             d = (a, b)
             z1 = set(self.g1.neighbors(a)).intersection(set(self.g1.neighbors(b)))
             self.link_common_neighbors[d] = len(z1)
+            breakpoint()
             z2 = set(self.g1.neighbors(a)).union(set(self.g1.neighbors(b)))
             self.link_common_neighbors_union[d] = len(z2)
             self.link_jc[d] = len(z1) / len(z2)
@@ -1228,6 +1231,34 @@ class Task2:
         self.link_class_variable.clear()
         print("\n\n---------------------------------------------------------------")
 
+    def write_header(self, csv_file):
+        writer = csv.writer(csv_file)
+
+        header = [
+            "ID-a",
+            "ID-b",
+            "CN",
+            "TN",
+            "JC",
+            "AA",
+            "PA",
+            "SPL",
+            "F-I-F",
+            "F-A-F",
+            "F-C-F",
+            "F-M1-F",
+            "F-M2-F",
+            "F-M3-F",
+            "F-R-F",
+            "F-I-D-I-F",
+            "F-D-I-F",
+            "F-A-I-F",
+            "F-I-C-I-F",
+            "F-I-A-I-F",
+            "F-I-R-I-F",
+            "CV"]
+        writer.writerow(header)
+        
     def pair_link_prediction(self, pair):
         a, b = pair[0], pair[1]
         z1 = set()
@@ -1235,6 +1266,7 @@ class Task2:
         d = (a, b)
         z1 = set(self.g1.neighbors(a)).intersection(set(self.g1.neighbors(b)))
         self.link_common_neighbors[d] = len(z1)
+        breakpoint()
         z2 = set(self.g1.neighbors(a)).union(set(self.g1.neighbors(b)))
         self.link_common_neighbors_union[d] = len(z2)
         self.link_jc[d] = len(z1) / len(z2)
@@ -1276,103 +1308,47 @@ class Task2:
             self.link_class_variable[d] = 1
         else:
             self.link_class_variable[d] = 0
+        # write to file
+        csv_file = f"F://{project}_no_fatty_commits_training.csv"
+        file = open(csv_file, "w")
+        if not os.path.exists(csv_file):
+            with file:
+                writer = csv.writer(file)
+                self.write_header(file)
+                
+        with file:
+            writer = csv.writer(file)
+            for e in self.link_common_neighbors:
+                row = [str(e),
+                        str(self.link_common_neighbors[e]),
+                        str(self.link_common_neighbors_union[e]),
+                        str(self.link_jc[e]),
+                        str(self.link_aa[e]),
+                        str(self.link_pa[e]),
+                        str(self.link_shortest_path[e]),
+                        str(self.link_f_i_f[e]),
+                        str(self.link_f_a_f[e]),
+                        str(self.link_f_c_f[e]),
+                        str(self.link_f_l1_f[e]),
+                        str(self.link_f_l2_f[e]),
+                        str(self.link_f_l3_f[e]),
+                        str(self.link_f_r_f[e]),
+                        str(self.link_f_i_d_i_f[e]),
+                        str(self.link_f_d_i_f[e]),
+                        str(self.link_f_a_i_f[e]),
+                        str(self.link_f_i_c_i_f[e]),
+                        str(self.link_f_i_a_i_f[e]),
+                        str(self.link_f_i_r_i_f[e]),
+                        str(self.link_class_variable[e])
+                    ]
+                writer.writerows(row)
 
     def spawn_link_prediction_pool(self, project):
-        
+        #breakpoint()
+        print(f"starting {project}")
         with concurrent.futures.ProcessPoolExecutor() as executor:
             executor.map(self.pair_link_prediction, self.s3)
 
-        csv_file = f"F://{project}_no_fatty_commits_training.csv"
-        result_file = open(csv_file, "w")
-        result_file.write("ID-a")
-        result_file.write(",")
-        result_file.write("ID-b")
-        result_file.write(",")
-        result_file.write("CN")
-        result_file.write(",")
-        result_file.write("TN")
-        result_file.write(",")
-        result_file.write("JC")
-        result_file.write(",")
-        result_file.write("AA")
-        result_file.write(",")
-        result_file.write("PA")
-        result_file.write(",")
-        result_file.write("SPL")
-        result_file.write(",")
-        result_file.write("F-I-F")
-        result_file.write(",")
-        result_file.write("F-A-F")
-        result_file.write(",")
-        result_file.write("F-C-F")
-        result_file.write(",")
-        result_file.write("F-M1-F")
-        result_file.write(",")
-        result_file.write("F-M2-F")
-        result_file.write(",")
-        result_file.write("F-M3-F")
-        result_file.write(",")
-        result_file.write("F-R-F")
-        result_file.write(",")
-        result_file.write("F-I-D-I-F")
-        result_file.write(",")
-        result_file.write("F-D-I-F")
-        result_file.write(",")
-        result_file.write("F-A-I-F")
-        result_file.write(",")
-        result_file.write("F-I-C-I-F")
-        result_file.write(",")
-        result_file.write("F-I-A-I-F")
-        result_file.write(",")
-        result_file.write("F-I-R-I-F")
-        result_file.write(",")
-        result_file.write("CV")
-        result_file.write(",")
-        result_file.write("\n")
-        for e in self.link_common_neighbors:
-            result_file.write(str(e))
-            result_file.write(",")
-            result_file.write(str(self.link_common_neighbors[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_common_neighbors_union[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_jc[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_aa[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_pa[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_shortest_path[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_i_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_a_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_c_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_l1_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_l2_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_l3_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_r_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_i_d_i_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_d_i_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_a_i_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_i_c_i_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_i_a_i_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_f_i_r_i_f[e]))
-            result_file.write(",")
-            result_file.write(str(self.link_class_variable[e]))
-            result_file.write(",")
-            result_file.write("\n")
         result_file.close()
         del csv_file
         del result_file
