@@ -1233,7 +1233,6 @@ class Task2:
 
     def write_header(self, csv_file):
         writer = csv.writer(csv_file)
-
         header = [
             "ID-a",
             "ID-b",
@@ -1259,7 +1258,7 @@ class Task2:
             "CV"]
         writer.writerow(header)
         
-    def pair_link_prediction(self, pair):
+    def pair_link_prediction(self, pair, project):
         a, b = pair[0], pair[1]
         z1 = set()
         z2 = set()
@@ -1346,8 +1345,10 @@ class Task2:
     def spawn_link_prediction_pool(self, project):
         #breakpoint()
         print(f"starting {project}")
+        # args found 
+        args = [(ele[0], ele[1], project) for ele in self.s3]
         with concurrent.futures.ProcessPoolExecutor() as executor:
-            executor.map(self.pair_link_prediction, self.s3)
+            executor.map(self.pair_link_prediction, args)
 
         result_file.close()
         del csv_file
@@ -1441,7 +1442,7 @@ if __name__ == "__main__":
                     'directory-fortress-core', 'storm', 'cxf-fediz', 'systemml',
                     'fineract', 'knox', 'streams', 'zeppelin', 'samza',
                     'directory-kerby', 'commons-rdf', 'nifi', 'eagle']
-    # project_list = ['xerces2-j',
+    # project_list =['xerces2-j',
     #                 'xmlgraphics-batik',
     #                 'commons-beanutils',
     #                 'commons-collections',
@@ -1531,7 +1532,7 @@ if __name__ == "__main__":
         name_of_project = p
         t.build_commit_set_of_src_files(name_of_project)
         t.print_data(name_of_project)
-        t.build_training_file1(name_of_project)
+        t.build_training_file1(name_of_project)     
         t.build_training_file2(name_of_project)
         t.compare_graph(name_of_project)
     print(f"Start time : {st}")
