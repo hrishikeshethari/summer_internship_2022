@@ -8,6 +8,7 @@ from Build_reverse_identity_dictionary import Build_reverse_identity_dictionary
 import csv
 import os
 import concurrent.futures
+from multiprocessing import Pool
 import matplotlib.pyplot as plt
 
 
@@ -23,14 +24,22 @@ class Task2:
         self.issue_author = self.db["issue_comment"]
         self.issue_reporter1 = self.db["issue"]
         self.file_path = self.db["file"]
-        self.commit_issue_records = list(self.commit_project.find({}, {"_id": 1, "linked_issue_ids": 1}))
-        self.commit_file_records = list(self.commit_file.find({}, {"file_id": 1, "commit_id": 1}))
-        self.commit_refactor_records = list(self.commit_refactoring.find({}, {"_id": 1, "commit_id": 1}))
-        self.issue_author_records = list(self.issue_author.find({}, {"issue_id": 1, "author_id": 1}))
-        self.issue_reporter_records = list(self.issue_reporter1.find({}, {"_id": 1, "reporter_id": 1}))
-        self.issue_assignee_records = list(self.issue_reporter1.find({}, {"_id": 1, "assignee_id": 1}))
-        self.issue_component_records = list(self.issue_reporter1.find({}, {"_id": 1, "components": 1}))
-        self.file_path_records = list(self.file_path.find({}, {"_id": 1, "path": 1}))
+        self.commit_issue_records = list(
+            self.commit_project.find({}, {"_id": 1, "linked_issue_ids": 1}))
+        self.commit_file_records = list(
+            self.commit_file.find({}, {"file_id": 1, "commit_id": 1}))
+        self.commit_refactor_records = list(
+            self.commit_refactoring.find({}, {"_id": 1, "commit_id": 1}))
+        self.issue_author_records = list(
+            self.issue_author.find({}, {"issue_id": 1, "author_id": 1}))
+        self.issue_reporter_records = list(
+            self.issue_reporter1.find({}, {"_id": 1, "reporter_id": 1}))
+        self.issue_assignee_records = list(
+            self.issue_reporter1.find({}, {"_id": 1, "assignee_id": 1}))
+        self.issue_component_records = list(
+            self.issue_reporter1.find({}, {"_id": 1, "components": 1}))
+        self.file_path_records = list(
+            self.file_path.find({}, {"_id": 1, "path": 1}))
         self.BRID = Build_reverse_identity_dictionary()
         self.BRID.reading_identity_and_people_and_building_reverse_identity_dictionary()
         self.commit_set_of_files = dict()
@@ -528,7 +537,8 @@ class Task2:
                             if commit not in self.commit_set_of_src_files.keys():
                                 self.commit_set_of_src_files[commit] = list()
                             if i not in self.commit_set_of_src_files[commit]:
-                                self.commit_set_of_src_files[commit].append(files[i])
+                                self.commit_set_of_src_files[commit].append(
+                                    files[i])
 
     def build_commit_time(self):
         for element in self.commit_project_records:
@@ -584,7 +594,8 @@ class Task2:
                     if issue not in self.file_issue[file]:
                         self.file_issue[file].append(issue)
         for file in self.file_issue.keys():
-            self.file_issue[file] = list(itertools.chain.from_iterable(self.file_issue[file]))
+            self.file_issue[file] = list(
+                itertools.chain.from_iterable(self.file_issue[file]))
         print(f"Length of file_issue = {len(self.file_issue)}")
 
     def build_commit_author(self):
@@ -608,7 +619,8 @@ class Task2:
                     if author not in self.file_developer_2a[file]:
                         self.file_developer_2a[file].append(author)
         for file in self.file_developer_2a.keys():
-            self.file_developer_2a[file] = list(itertools.chain.from_iterable(self.file_developer_2a[file]))
+            self.file_developer_2a[file] = list(
+                itertools.chain.from_iterable(self.file_developer_2a[file]))
 
     def build_commit_committer(self):
         for element in self.commit_project_records:
@@ -631,7 +643,8 @@ class Task2:
                     if committer not in self.file_developer2b[file]:
                         self.file_developer2b[file].append(committer)
         for file in self.file_developer2b.keys():
-            self.file_developer2b[file] = list(itertools.chain.from_iterable(self.file_developer2b[file]))
+            self.file_developer2b[file] = list(
+                itertools.chain.from_iterable(self.file_developer2b[file]))
 
     def build_file_path(self):
         for element in self.file_path_records:
@@ -703,7 +716,8 @@ class Task2:
                     if refactor not in self.file_developer4[file]:
                         self.file_developer4[file].append(refactor)
         for file in self.file_developer4.keys():
-            self.file_developer4[file] = list(itertools.chain.from_iterable(self.file_developer4[file]))
+            self.file_developer4[file] = list(
+                itertools.chain.from_iterable(self.file_developer4[file]))
 
     def build_file_developer5(self):
         for file in self.file_commits_data.keys():
@@ -717,7 +731,8 @@ class Task2:
                     if author not in self.file_developer5[file]:
                         self.file_developer5[file].append(author)
         for file in self.file_developer5.keys():
-            self.file_developer5[file] = list(itertools.chain.from_iterable(self.file_developer5[file]))
+            self.file_developer5[file] = list(
+                itertools.chain.from_iterable(self.file_developer5[file]))
 
     def build_developer5_issue(self):
         for element in self.issue_author_records:
@@ -789,7 +804,8 @@ class Task2:
                         self.file_assignee_unique[file].append(assignee)
                     self.file_assignee[file].append(assignee)
         for file in self.file_assignee:
-            self.file_assignee[file] = list(itertools.chain.from_iterable(self.file_assignee[file]))
+            self.file_assignee[file] = list(
+                itertools.chain.from_iterable(self.file_assignee[file]))
 
     def build_file_assignee_mapping(self):
         for file in self.file_issue.keys():
@@ -800,7 +816,8 @@ class Task2:
                             self.file_assignee_mapping[file] = list()
                             self.file_assignee_mapping_unique[file] = list()
                         if assignee not in self.file_assignee_mapping[file]:
-                            self.file_assignee_mapping_unique[file].append(assignee)
+                            self.file_assignee_mapping_unique[file].append(
+                                assignee)
                         self.file_assignee_mapping[file].append(assignee)
 
     def build_issue_developer8(self):
@@ -826,7 +843,8 @@ class Task2:
                         self.file_developer8_unique[file].append(developer)
                     self.file_developer8[file].append(developer)
         for file in self.file_developer8.keys():
-            self.file_developer8[file] = list(itertools.chain.from_iterable(self.file_developer8[file]))
+            self.file_developer8[file] = list(
+                itertools.chain.from_iterable(self.file_developer8[file]))
 
     def build_file_developer8_mapping(self):
         for file in self.file_issue.keys():
@@ -837,7 +855,8 @@ class Task2:
                             self.file_developer8_mapping[file] = list()
                             self.file_developer8_mapping_unique[file] = list()
                         if developer not in self.file_developer8_mapping_unique[file]:
-                            self.file_developer8_mapping_unique[file].append(developer)
+                            self.file_developer8_mapping_unique[file].append(
+                                developer)
                         self.file_developer8_mapping[file].append(developer)
 
     def build_issue_component(self):
@@ -853,7 +872,8 @@ class Task2:
                 if component_id not in self.issue_component[issue_id]:
                     self.issue_component[issue_id].append(component_id)
         for issue in self.issue_component:
-            self.issue_component[issue] = list(itertools.chain.from_iterable(self.issue_component[issue]))
+            self.issue_component[issue] = list(
+                itertools.chain.from_iterable(self.issue_component[issue]))
 
     def file_component_mapping(self):
         for file in self.file_issue.keys():
@@ -876,7 +896,8 @@ class Task2:
                             self.file_developer11[file] = list()
                             self.file_developer11_unique[file] = list()
                         if developer not in self.file_developer11_unique[file]:
-                            self.file_developer11_unique[file].append(developer)
+                            self.file_developer11_unique[file].append(
+                                developer)
                         self.file_developer11[file].append(developer)
 
     def build_issue_reporter(self):
@@ -901,7 +922,8 @@ class Task2:
                             self.file_developer12[file] = list()
                             self.file_developer12_unique[file] = list()
                         if developer not in self.file_developer12_unique[file]:
-                            self.file_developer12_unique[file].append(developer)
+                            self.file_developer12_unique[file].append(
+                                developer)
                         self.file_developer12[file].append(developer)
 
     def print_data(self, project):
@@ -1002,7 +1024,8 @@ class Task2:
                 if commit in self.training_data1:
                     files = self.commit_set_of_src_files[commit]
                     # if 30 >= len(files) > 0:
-                    ordered_pairs = {(x, y) for x in files for y in files if x != y}
+                    ordered_pairs = {(x, y)
+                                     for x in files for y in files if x != y}
                     self.g1.add_edges_from(ordered_pairs)
         print(f"Length of edges training data 1 = {len(self.g1.edges())}")
         print(f"Length of nodes training data 1 = {len(self.g1.nodes())}")
@@ -1014,7 +1037,8 @@ class Task2:
                 if commit in self.training_data2:
                     files = self.commit_set_of_src_files[commit]
                     # if 30 >= len(files) >= 1:
-                    ordered_pairs = {(x, y) for x in files for y in files if x != y}
+                    ordered_pairs = {(x, y)
+                                     for x in files for y in files if x != y}
                     self.g2.add_edges_from(ordered_pairs)
         print(f"Length of edges training data 2 = {len(self.g2.edges())}")
         print(f"Length of nodes training data 2 = {len(self.g2.nodes())}")
@@ -1058,7 +1082,7 @@ class Task2:
         print(f"s3 length = {ls3}")
         unique_pairs.clear()
         r.clear()
-        self.spawn_link_prediction_pool(project)
+        self.execute_multiprocess(project)
 
     def build_link_prediction(self, project):
         z1 = set()
@@ -1070,7 +1094,8 @@ class Task2:
             z1.clear()
             z2.clear()
             d = (a, b)
-            z1 = set(self.g1.neighbors(a)).intersection(set(self.g1.neighbors(b)))
+            z1 = set(self.g1.neighbors(a)).intersection(
+                set(self.g1.neighbors(b)))
             self.link_common_neighbors[d] = len(z1)
             breakpoint()
             z2 = set(self.g1.neighbors(a)).union(set(self.g1.neighbors(b)))
@@ -1079,9 +1104,11 @@ class Task2:
             paa = (nx.adamic_adar_index(self.g1, [d]))
             for pa in paa:
                 self.link_aa[d] = pa[2]
-            self.link_pa[d] = len(set(self.g1.neighbors(a))) * len(set(self.g1.neighbors(b)))
+            self.link_pa[d] = len(set(self.g1.neighbors(a))) * \
+                len(set(self.g1.neighbors(b)))
             if nx.has_path(self.g1, source=a, target=b):
-                self.link_shortest_path[d] = nx.shortest_path_length(self.g1, source=a, target=b)
+                self.link_shortest_path[d] = nx.shortest_path_length(
+                    self.g1, source=a, target=b)
             else:
                 self.link_shortest_path[d] = 0
             y1 = self.path_count1(a, b)
@@ -1257,9 +1284,9 @@ class Task2:
             "F-I-R-I-F",
             "CV"]
         writer.writerow(header)
-        
-    def pair_link_prediction(self, pair, project):
-        a, b = pair[0], pair[1]
+
+    def pair_link_prediction(self, pair):
+        a, b, project = pair[0], pair[1], pair[2]
         z1 = set()
         z2 = set()
         d = (a, b)
@@ -1272,9 +1299,11 @@ class Task2:
         paa = (nx.adamic_adar_index(self.g1, [d]))
         for pa in paa:
             self.link_aa[d] = pa[2]
-        self.link_pa[d] = len(set(self.g1.neighbors(a))) * len(set(self.g1.neighbors(b)))
+        self.link_pa[d] = len(set(self.g1.neighbors(a))) * \
+            len(set(self.g1.neighbors(b)))
         if nx.has_path(self.g1, source=a, target=b):
-            self.link_shortest_path[d] = nx.shortest_path_length(self.g1, source=a, target=b)
+            self.link_shortest_path[d] = nx.shortest_path_length(
+                self.g1, source=a, target=b)
         else:
             self.link_shortest_path[d] = 0
         y1 = self.path_count1(a, b)
@@ -1314,45 +1343,49 @@ class Task2:
             with file:
                 writer = csv.writer(file)
                 self.write_header(file)
-                
+
         with file:
             writer = csv.writer(file)
             for e in self.link_common_neighbors:
                 row = [str(e),
-                        str(self.link_common_neighbors[e]),
-                        str(self.link_common_neighbors_union[e]),
-                        str(self.link_jc[e]),
-                        str(self.link_aa[e]),
-                        str(self.link_pa[e]),
-                        str(self.link_shortest_path[e]),
-                        str(self.link_f_i_f[e]),
-                        str(self.link_f_a_f[e]),
-                        str(self.link_f_c_f[e]),
-                        str(self.link_f_l1_f[e]),
-                        str(self.link_f_l2_f[e]),
-                        str(self.link_f_l3_f[e]),
-                        str(self.link_f_r_f[e]),
-                        str(self.link_f_i_d_i_f[e]),
-                        str(self.link_f_d_i_f[e]),
-                        str(self.link_f_a_i_f[e]),
-                        str(self.link_f_i_c_i_f[e]),
-                        str(self.link_f_i_a_i_f[e]),
-                        str(self.link_f_i_r_i_f[e]),
-                        str(self.link_class_variable[e])
-                    ]
+                       str(self.link_common_neighbors[e]),
+                       str(self.link_common_neighbors_union[e]),
+                       str(self.link_jc[e]),
+                       str(self.link_aa[e]),
+                       str(self.link_pa[e]),
+                       str(self.link_shortest_path[e]),
+                       str(self.link_f_i_f[e]),
+                       str(self.link_f_a_f[e]),
+                       str(self.link_f_c_f[e]),
+                       str(self.link_f_l1_f[e]),
+                       str(self.link_f_l2_f[e]),
+                       str(self.link_f_l3_f[e]),
+                       str(self.link_f_r_f[e]),
+                       str(self.link_f_i_d_i_f[e]),
+                       str(self.link_f_d_i_f[e]),
+                       str(self.link_f_a_i_f[e]),
+                       str(self.link_f_i_c_i_f[e]),
+                       str(self.link_f_i_a_i_f[e]),
+                       str(self.link_f_i_r_i_f[e]),
+                       str(self.link_class_variable[e])
+                       ]
                 writer.writerows(row)
 
+    def execute_multiprocess(self, project):
+        args = [(ele[0], ele[1], project) for ele in self.s3]
+        pool = Pool(processes=8)
+        pool.map(pair_link_prediction, args)
+        pool.close()
+        pool.join()
+
     def spawn_link_prediction_pool(self, project):
-        #breakpoint()
+        # breakpoint()
         print(f"starting {project}")
-        # args found 
+        # args found
         args = [(ele[0], ele[1], project) for ele in self.s3]
         with concurrent.futures.ProcessPoolExecutor() as executor:
             executor.map(self.pair_link_prediction, args)
 
-        result_file.close()
-        del csv_file
-        del result_file
         self.link_common_neighbors.clear()
         self.link_common_neighbors_union.clear()
         self.link_jc.clear()
@@ -1532,7 +1565,7 @@ if __name__ == "__main__":
         name_of_project = p
         t.build_commit_set_of_src_files(name_of_project)
         t.print_data(name_of_project)
-        t.build_training_file1(name_of_project)     
+        t.build_training_file1(name_of_project)
         t.build_training_file2(name_of_project)
         t.compare_graph(name_of_project)
     print(f"Start time : {st}")
