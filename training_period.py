@@ -1290,16 +1290,17 @@ class Task2:
         z1 = set()
         z2 = set()
         d = (a, b)
-        z1 = set(self.g1.neighbors(a)).intersection(set(self.g1.neighbors(b)))
+        g1 = copy.deepcopy(self.g1)
+        z1 = set(g1.neighbors(a)).intersection(set(g1.neighbors(b)))
         self.link_common_neighbors[d] = len(z1)
         breakpoint()
-        z2 = set(self.g1.neighbors(a)).union(set(self.g1.neighbors(b)))
+        z2 = set(g1.neighbors(a)).union(set(g1.neighbors(b)))
         self.link_common_neighbors_union[d] = len(z2)
         self.link_jc[d] = len(z1) / len(z2)
-        paa = (nx.adamic_adar_index(self.g1, [d]))
+        paa = (nx.adamic_adar_index(g1, [d]))
         for pa in paa:
             self.link_aa[d] = pa[2]
-        self.link_pa[d] = len(set(self.g1.neighbors(a))) * \
+        self.link_pa[d] = len(set(g1.neighbors(a))) * \
             len(set(self.g1.neighbors(b)))
         if nx.has_path(self.g1, source=a, target=b):
             self.link_shortest_path[d] = nx.shortest_path_length(
@@ -1332,10 +1333,14 @@ class Task2:
         self.link_f_i_a_i_f[d] = y11
         y12 = self.path_count12(a, b)
         self.link_f_i_r_i_f[d] = y12
-        if self.g2.has_edge(a, b):
+
+        g2 = copy.deepcopy(self.g2)
+        if g2.has_edge(a, b):
             self.link_class_variable[d] = 1
         else:
             self.link_class_variable[d] = 0
+
+        del g1, g2
         # write to file
         csv_file = f"F://{project}_no_fatty_commits_training.csv"
         file = open(csv_file, "w")
