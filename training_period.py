@@ -8,7 +8,7 @@ from Build_reverse_identity_dictionary import Build_reverse_identity_dictionary
 import csv
 import os
 import concurrent.futures
-from multiprocessing import Pool
+from multiprocessing import Pool, Lock
 import matplotlib.pyplot as plt
 
 
@@ -1285,7 +1285,7 @@ class Task2:
             "CV"]
         writer.writerow(header)
 
-    def pair_link_prediction(self, pair):
+    def pair_link_prediction(self, pair, lock):
         a, b, project = pair[0], pair[1], pair[2]
         z1 = set()
         z2 = set()
@@ -1342,54 +1342,61 @@ class Task2:
 
         del g1, g2
         # write to file
-        csv_file = f"F://{project}_no_fatty_commits_training.csv"
-        file = open(csv_file, "w")
-        if not os.path.exists(csv_file):
+        lock.acquire()
+        try:
+            csv_file = f"F://{project}_no_fatty_commits_training.csv"
+            file = open(csv_file, "w")
+            if not os.path.exists(csv_file):
+                with file:
+                    writer = csv.writer(file)
+                    self.write_header(file)
+
             with file:
                 writer = csv.writer(file)
-                self.write_header(file)
-
-        with file:
-            writer = csv.writer(file)
-            for e in self.link_common_neighbors:
-                row = [str(e),
-                       str(self.link_common_neighbors[e]),
-                       str(self.link_common_neighbors_union[e]),
-                       str(self.link_jc[e]),
-                       str(self.link_aa[e]),
-                       str(self.link_pa[e]),
-                       str(self.link_shortest_path[e]),
-                       str(self.link_f_i_f[e]),
-                       str(self.link_f_a_f[e]),
-                       str(self.link_f_c_f[e]),
-                       str(self.link_f_l1_f[e]),
-                       str(self.link_f_l2_f[e]),
-                       str(self.link_f_l3_f[e]),
-                       str(self.link_f_r_f[e]),
-                       str(self.link_f_i_d_i_f[e]),
-                       str(self.link_f_d_i_f[e]),
-                       str(self.link_f_a_i_f[e]),
-                       str(self.link_f_i_c_i_f[e]),
-                       str(self.link_f_i_a_i_f[e]),
-                       str(self.link_f_i_r_i_f[e]),
-                       str(self.link_class_variable[e])
-                       ]
-                writer.writerows(row)
+                for e in self.link_common_neighbors:
+                    row = [str(e),
+                           str(self.link_common_neighbors[e]),
+                           str(self.link_common_neighbors_union[e]),
+                           str(self.link_jc[e]),
+                           str(self.link_aa[e]),
+                           str(self.link_pa[e]),
+                           str(self.link_shortest_path[e]),
+                           str(self.link_f_i_f[e]),
+                           str(self.link_f_a_f[e]),
+                           str(self.link_f_c_f[e]),
+                           str(self.link_f_l1_f[e]),
+                           str(self.link_f_l2_f[e]),
+                           str(self.link_f_l3_f[e]),
+                           str(self.link_f_r_f[e]),
+                           str(self.link_f_i_d_i_f[e]),
+                           str(self.link_f_d_i_f[e]),
+                           str(self.link_f_a_i_f[e]),
+                           str(self.link_f_i_c_i_f[e]),
+                           str(self.link_f_i_a_i_f[e]),
+                           str(self.link_f_i_r_i_f[e]),
+                           str(self.link_class_variable[e])
+                           ]
+                    writer.writerows(row)
+        finally:
+            lock.release()
 
     def execute_multiprocess(self, project):
+
         args = [(ele[0], ele[1], project) for ele in self.s3]
-        pool = Pool(processes=8)
-        pool.map(pair_link_prediction, args)
-        pool.close()
-        pool.join()
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            results = executor.map(pair_link_prediction, args)
+
+            for result in results:
+                print(result)
 
     def spawn_link_prediction_pool(self, project):
         # breakpoint()
         print(f"starting {project}")
         # args found
         args = [(ele[0], ele[1], project) for ele in self.s3]
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            executor.map(self.pair_link_prediction, args)
+        with Pool() as pool:
+            lock = Lock()
+            results = pool.map(pair_link_prediction, (args, lock))
 
         self.link_common_neighbors.clear()
         self.link_common_neighbors_union.clear()
