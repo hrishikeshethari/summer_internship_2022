@@ -1377,17 +1377,45 @@ class Task2:
                            str(self.link_class_variable[e])
                            ]
                     writer.writerows(row)
+
+            self.link_common_neighbors.clear()
+            self.link_common_neighbors_union.clear()
+            self.link_jc.clear()
+            self.link_aa.clear()
+            self.link_pa.clear()
+            self.link_shortest_path.clear()
+            self.link_f_i_f.clear()
+            self.link_f_a_f.clear()
+            self.link_f_c_f.clear()
+            self.link_f_l1_f.clear()
+            self.link_f_l2_f.clear()
+            self.link_f_l3_f.clear()
+            self.link_f_r_f.clear()
+            self.link_f_i_d_i_f.clear()
+            self.link_f_d_i_f.clear()
+            self.link_f_a_i_f.clear()
+            self.link_f_i_c_i_f.clear()
+            self.link_f_i_a_i_f.clear()
+            self.link_f_i_r_i_f.clear()
+            self.link_class_variable.clear()
+            print("\n\n---------------------------------------------------------------")
+
         finally:
             lock.release()
 
     def execute_multiprocess(self, project):
 
         args = [(ele[0], ele[1], project) for ele in self.s3]
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            results = executor.map(pair_link_prediction, args)
+        # with concurrent.futures.ProcessPoolExecutor() as executor:
+        #     results = executor.map(pair_link_prediction, args)
 
-            for result in results:
-                print(result)
+        #     for result in results:
+        #         print(result)
+
+        with Pool() as pool:
+
+            for res in pool.map(pair_link_prediction, args):
+                print(res, flush=True)
 
     def spawn_link_prediction_pool(self, project):
         # breakpoint()
@@ -1397,28 +1425,6 @@ class Task2:
         with Pool() as pool:
             lock = Lock()
             results = pool.map(pair_link_prediction, (args, lock))
-
-        self.link_common_neighbors.clear()
-        self.link_common_neighbors_union.clear()
-        self.link_jc.clear()
-        self.link_aa.clear()
-        self.link_pa.clear()
-        self.link_shortest_path.clear()
-        self.link_f_i_f.clear()
-        self.link_f_a_f.clear()
-        self.link_f_c_f.clear()
-        self.link_f_l1_f.clear()
-        self.link_f_l2_f.clear()
-        self.link_f_l3_f.clear()
-        self.link_f_r_f.clear()
-        self.link_f_i_d_i_f.clear()
-        self.link_f_d_i_f.clear()
-        self.link_f_a_i_f.clear()
-        self.link_f_i_c_i_f.clear()
-        self.link_f_i_a_i_f.clear()
-        self.link_f_i_r_i_f.clear()
-        self.link_class_variable.clear()
-        print("\n\n---------------------------------------------------------------")
 
 
 if __name__ == "__main__":
