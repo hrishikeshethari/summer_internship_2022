@@ -14,8 +14,10 @@ import matplotlib.pyplot as plt
 from multiprocessing import Process, Pool, get_context
 
 
-def pair_link_prediction(chunk, z1, z2):
+def pair_link_prediction(chunk):
     # a, b, project, g1, g2 = pair[0], pair[1], pair[2], pair[3], pair[4]
+    z1, z2 = set(), set()
+
     for a, b in chunk:
         z1.clear()
         z2.clear()
@@ -32,7 +34,7 @@ def pair_link_prediction(chunk, z1, z2):
         for pa in paa:
             link_aa[d] = pa[2]
         link_pa[d] = len(set(g1.neighbors(a))) * \
-                     len(set(g1.neighbors(b)))
+            len(set(g1.neighbors(b)))
         if nx.has_path(g1, source=a, target=b):
             link_shortest_path[d] = nx.shortest_path_length(
                 g1, source=a, target=b)
@@ -1204,7 +1206,7 @@ def build_link_prediction(project):
     print(f"begin neighbors {project}")
     c = 0
     with get_context("spawn").Pool(processes=8) as pool:
-        args = [(ele[0], ele[1], z1, z2) for ele in s3]
+        args = s3
         chunks = []
         chunk_size = int(len(args)/8)
         chunk_indexes = list(range(0, len(args), chunk_size))
@@ -1214,10 +1216,8 @@ def build_link_prediction(project):
                 chunks.append(args[idx:])
             else:
                 chunks.append(args[idx:idx + chunk_size])
-        #multiprocessing.set_start_method('spawn')
-        p = Process(target=pair_link_prediction, args=(chunks[0][0]))
-        p.start()
-        p.join()
+        # multiprocessing.set_start_method('spawn')
+        pool.map()
 
     # for a, b in s3:
     #     Process(target=pair_link_prediction, args=(a, b, z1, z2)).start()
@@ -1419,91 +1419,91 @@ def write_header(csv_file):
     writer.writerow(header)
 
 
-def pair_link_prediction(pair):
-    project = pair[2]
-    a, b = pair[0], pair[1]
-    z1 = set()
-    z2 = set()
-    d = (a, b)
-    z1 = set(g1.neighbors(a)).intersection(set(g1.neighbors(b)))
-    link_common_neighbors[d] = len(z1)
-    breakpoint()
-    z2 = set(g1.neighbors(a)).union(set(g1.neighbors(b)))
-    link_common_neighbors_union[d] = len(z2)
-    link_jc[d] = len(z1) / len(z2)
-    paa = (nx.adamic_adar_index(g1, [d]))
-    for pa in paa:
-        link_aa[d] = pa[2]
-    link_pa[d] = len(set(g1.neighbors(a))) * \
-                 len(set(g1.neighbors(b)))
-    if nx.has_path(g1, source=a, target=b):
-        link_shortest_path[d] = nx.shortest_path_length(
-            g1, source=a, target=b)
-    else:
-        link_shortest_path[d] = 0
-    y1 = path_count1(a, b)
-    link_f_i_f[d] = y1
-    y2a = path_count2a(a, b)
-    link_f_a_f[d] = y2a
-    y2b = path_count2b(a, b)
-    link_f_c_f[d] = y2b
-    y3a = path_count3a(a, b)
-    link_f_l1_f[d] = y3a
-    y3b = path_count3b(a, b)
-    link_f_l2_f[d] = y3b
-    y3c = path_count3c(a, b)
-    link_f_l3_f[d] = y3c
-    y4 = path_count4(a, b)
-    link_f_r_f[d] = y4
-    y6 = path_count6(a, b)
-    link_f_i_d_i_f[d] = y6
-    y7 = path_count7(a, b)
-    link_f_d_i_f[d] = y7
-    y8 = path_count8(a, b)
-    link_f_a_i_f[d] = y8
-    y9 = path_count9(a, b)
-    link_f_i_c_i_f[d] = y9
-    y11 = path_count11(a, b)
-    link_f_i_a_i_f[d] = y11
-    y12 = path_count12(a, b)
-    link_f_i_r_i_f[d] = y12
-    if g2.has_edge(a, b):
-        link_class_variable[d] = 1
-    else:
-        link_class_variable[d] = 0
-    # write to file
-    csv_file = f"F://{project}_no_fatty_commits_training.csv"
-    file = open(csv_file, "w")
-    with file:
-        writer = csv.writer(file)
-        write_header(file)
+# def pair_link_prediction(pair):
+#     project = pair[2]
+#     a, b = pair[0], pair[1]
+#     z1 = set()
+#     z2 = set()
+#     d = (a, b)
+#     z1 = set(g1.neighbors(a)).intersection(set(g1.neighbors(b)))
+#     link_common_neighbors[d] = len(z1)
+#     breakpoint()
+#     z2 = set(g1.neighbors(a)).union(set(g1.neighbors(b)))
+#     link_common_neighbors_union[d] = len(z2)
+#     link_jc[d] = len(z1) / len(z2)
+#     paa = (nx.adamic_adar_index(g1, [d]))
+#     for pa in paa:
+#         link_aa[d] = pa[2]
+#     link_pa[d] = len(set(g1.neighbors(a))) * \
+#         len(set(g1.neighbors(b)))
+#     if nx.has_path(g1, source=a, target=b):
+#         link_shortest_path[d] = nx.shortest_path_length(
+#             g1, source=a, target=b)
+#     else:
+#         link_shortest_path[d] = 0
+#     y1 = path_count1(a, b)
+#     link_f_i_f[d] = y1
+#     y2a = path_count2a(a, b)
+#     link_f_a_f[d] = y2a
+#     y2b = path_count2b(a, b)
+#     link_f_c_f[d] = y2b
+#     y3a = path_count3a(a, b)
+#     link_f_l1_f[d] = y3a
+#     y3b = path_count3b(a, b)
+#     link_f_l2_f[d] = y3b
+#     y3c = path_count3c(a, b)
+#     link_f_l3_f[d] = y3c
+#     y4 = path_count4(a, b)
+#     link_f_r_f[d] = y4
+#     y6 = path_count6(a, b)
+#     link_f_i_d_i_f[d] = y6
+#     y7 = path_count7(a, b)
+#     link_f_d_i_f[d] = y7
+#     y8 = path_count8(a, b)
+#     link_f_a_i_f[d] = y8
+#     y9 = path_count9(a, b)
+#     link_f_i_c_i_f[d] = y9
+#     y11 = path_count11(a, b)
+#     link_f_i_a_i_f[d] = y11
+#     y12 = path_count12(a, b)
+#     link_f_i_r_i_f[d] = y12
+#     if g2.has_edge(a, b):
+#         link_class_variable[d] = 1
+#     else:
+#         link_class_variable[d] = 0
+#     # write to file
+#     csv_file = f"F://{project}_no_fatty_commits_training.csv"
+#     file = open(csv_file, "w")
+#     with file:
+#         writer = csv.writer(file)
+#         write_header(file)
 
-    with file:
-        writer = csv.writer(file)
-        for e in link_common_neighbors:
-            row = [str(e),
-                   str(link_common_neighbors[e]),
-                   str(link_common_neighbors_union[e]),
-                   str(link_jc[e]),
-                   str(link_aa[e]),
-                   str(link_pa[e]),
-                   str(link_shortest_path[e]),
-                   str(link_f_i_f[e]),
-                   str(link_f_a_f[e]),
-                   str(link_f_c_f[e]),
-                   str(link_f_l1_f[e]),
-                   str(link_f_l2_f[e]),
-                   str(link_f_l3_f[e]),
-                   str(link_f_r_f[e]),
-                   str(link_f_i_d_i_f[e]),
-                   str(link_f_d_i_f[e]),
-                   str(link_f_a_i_f[e]),
-                   str(link_f_i_c_i_f[e]),
-                   str(link_f_i_a_i_f[e]),
-                   str(link_f_i_r_i_f[e]),
-                   str(link_class_variable[e])
-                   ]
-            writer.writerows(row)
+#     with file:
+#         writer = csv.writer(file)
+#         for e in link_common_neighbors:
+#             row = [str(e),
+#                    str(link_common_neighbors[e]),
+#                    str(link_common_neighbors_union[e]),
+#                    str(link_jc[e]),
+#                    str(link_aa[e]),
+#                    str(link_pa[e]),
+#                    str(link_shortest_path[e]),
+#                    str(link_f_i_f[e]),
+#                    str(link_f_a_f[e]),
+#                    str(link_f_c_f[e]),
+#                    str(link_f_l1_f[e]),
+#                    str(link_f_l2_f[e]),
+#                    str(link_f_l3_f[e]),
+#                    str(link_f_r_f[e]),
+#                    str(link_f_i_d_i_f[e]),
+#                    str(link_f_d_i_f[e]),
+#                    str(link_f_a_i_f[e]),
+#                    str(link_f_i_c_i_f[e]),
+#                    str(link_f_i_a_i_f[e]),
+#                    str(link_f_i_r_i_f[e]),
+#                    str(link_class_variable[e])
+#                    ]
+#             writer.writerows(row)
 
 
 def spawn_link_prediction_pool(project):
