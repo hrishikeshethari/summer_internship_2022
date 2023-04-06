@@ -34,7 +34,9 @@ class DivideDataset:
         self.file_action = self.db["file_action"]
         self.project_commits = list(self.commit_with_project_info.find({"project_name_info.name": project_name},
                                                                   {"_id": 1, "committer_date": 1, "committer_id": 1}).limit(data_limit))
-        
+        self.project_commit_issue = list(self.commit_with_project_info.find({"project_name_info.name": project_name}, 
+                                                                            {"_id": 1, "linked_issue_ids": 1}).limit(data_limit))
+    
         self.file_commit_1 = self.make_file_commit_dict(Half.FIRST)
         self.file_commit_2 = self.make_file_commit_dict(Half.SECOND)
         # self.commit_project = self.db["commit_with_project_info"]
@@ -81,17 +83,14 @@ class DivideDataset:
         """
         returns the midpoint date of the project
         """
-        # make a list of tuples of commit_id and commit_date
         commit_date_list = []
-
         
         for commit in self.project_commits:
             commit_date_list.append(
                 (commit['committer_id'], commit['committer_date']))
-        # sort the list of tuples by commit_date
+            
         commit_date_list.sort(key=lambda tup: tup[1])
 
-        # find the midpoint date based on time period of start and end date
         time_period = end_date - start_date
         midpoint_date = start_date + time_period / 2
 
@@ -188,6 +187,30 @@ class DivideDataset:
         #print(f'unique file_ids in file_commit_dict: {len(set(file_commit_dict.keys()))}')
         return file_commit_dict
     
+    def make_file_issue_dict(self, half):
+        """
+        returns the dictionary of file_id and list of issue_id
+        """
+        commits = self.make_file_commit_dict(half)
+        file_issue_dict = {}
+        issue_set = set()
+
+        for file_id, commit_list in commits.items():
+            issue_list = []
+            for commit_id in commit_list:
+                # find the issue_id of the commit_id in self.project_commits_issue
+                for commit in self.project_commits_issue:
+                    if commit_id == commit["_id"]:
+                        issue_list.extend(commit["linked_issue_ids"])
+                        issue_set.update(commit["linked_issue_ids"])
+                        avg_issue_per_file += len(commit["linked_issue_ids"])
+            
+        print(f'unique issue_ids in file_issue_dict for {half} : {len(issue_set)}')
+        print(f'avg issue per file for {half}: {len(issue_set)/len(file_issue_dict)}')
+
+        return file_issue_dict
+
+
     def make_all_file_pairs(self, half):
         """print(len(file_combinations))
         Make all possible pairs among them
@@ -204,18 +227,21 @@ class DivideDataset:
 
         return file_pairs
 
-    def make_connected_file_pairs(self, half):
+    def make_connected_file_pairs(self, co_change, half):
         """
         returns the list of connected file pairs
         """
         
         connected_file_pairs = []
-        file_commit_dict = self.make_file_commit_dict(half)
+        if co_change == 'commit':
+            file_dict = self.make_file_commit_dict(half)
+        elif co_change == 'issue':
+            file_dict = self.make_file_issue_dict(half)
 
-        file_combinations = list(itertools.combinations(file_commit_dict.keys(), 2))
+        file_combinations = list(itertools.combinations(file_dict.keys(), 2))
         #print("combinations",len(file_combinations))
         # 4M
-        process_file_pairs(file_combinations, file_commit_dict)
+        #process_file_pairs(file_combinations, file_commit_dict)
         # for file_id, file_id2 in file_combinations:    
         #     if set(file_commit_dict[file_id]).intersection(file_commit_dict[file_id2]):
         #         connected_file_pairs.append((file_id, file_id2))
@@ -226,7 +252,7 @@ class DivideDataset:
 
         pool = multiprocessing.Pool(processes=4)
         for chunk in chunks:
-            res = pool.apply_async(process_file_pairs, args=(chunk, file_commit_dict))
+            res = pool.apply_async(process_file_pairs, args=(chunk, file_dict))
             #print(f'processed {len(chunk)} file pairs\n')
             connected_file_pairs.extend(res.get())
         pool.close()
@@ -288,6 +314,7 @@ class DivideDataset:
             file2_commit_list = file_commit_dict[file_pair[1]]
         except KeyError:
             return False
+        
         for commit in file1_commit_list:
             if commit in file2_commit_list:
                 return True
@@ -308,10 +335,27 @@ class DivideDataset:
         disconnected_file_pairs = first_set.difference(second_set)
         # file pairs which are not connected in the first half but connected in the second half
         newly_connected_file_pairs = second_set.difference(first_set)
+        
+        # inter module file pairs
+        intermodule_file_pairs_first = []
+        intermodule_file_pairs_second = []
+        for file_pair in first_set:
+            if is_inter_module(file_pair):
+                intermodule_file_pairs_first.append(file_pair)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
-        print(f"connected file pairs in first and second -> {len(connected_file_pairs)}")
-        print(f"connected file pairs in first, but not second -> {len(disconnected_file_pairs)}")
-        print(f"connected file pairs in second, but not first -> {len(newly_connected_file_pairs)}")
+        for file_pair in second_set:
+            if is_inter_module(file_pair):
+                intermodule_file_pairs_second.append(file_pair)
+
+        print(f"\t S1 \n connected file pairs in first and second -> {len(connected_file_pairs)}")
+        print('-'*60)
+        print(f"\tconnected file pairs in first, but not second -> {len(disconnected_file_pairs)}")
+        print('-'*60)
+        print(f"\t S2 \n connected file pairs in second, but not first -> {len(newly_connected_file_pairs)}")
+        print('-'*60)
+        print(f"\t S3 \n intermodule file pairs in first -> {(len(intermodule_file_pairs_first)/len(first_set))*100} %")
+        print('-'*60)
+        print(f"\tS4 \n intermodule file pairs in second -> {(len(intermodule_file_pairs_second)/len(second_set))*100} %")
 
 def process_file_pairs(chunk, file_commit_dict):
     """
@@ -323,6 +367,17 @@ def process_file_pairs(chunk, file_commit_dict):
             connected_file_pairs.append((file_id, file_id2))
 
     return connected_file_pairs
+
+def is_inter_module(file_pair):
+    """
+    returns True if the file pair is inter module
+    """
+    
+    file1_module = file_pair[0].split('/')[-2]
+    file2_module = file_pair[1].split('/')[-2]
+    if file1_module != file2_module:
+        return True 
+    return False
 
 
 if __name__ == "__main__":
@@ -337,8 +392,8 @@ if __name__ == "__main__":
     print(len(divide_dataset.get_project_files(Half.SECOND)))
     print(f' length of commit-file dict -> {len(divide_dataset.make_commit_file_dict(Half.SECOND))}')
     print(f" length of file-commit dict -> {len(divide_dataset.make_file_commit_dict(Half.SECOND))}")
-    first_half_file_pairs = divide_dataset.make_connected_file_pairs(Half.FIRST)
-    second_half_file_pairs = divide_dataset.make_connected_file_pairs(Half.SECOND)
+    first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
+    second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
     divide_dataset.file_pair_evolution(first_half_file_pairs, second_half_file_pairs)
     #print(divide_dataset.make_connected_file_pairs(Half.SECOND)[:10])  
     # divide_dataset.file_pair_evolution()
@@ -347,5 +402,5 @@ if __name__ == "__main__":
     # plot_commit('giraph')
     # print(len(divide_dataset.connected_file_pairs(Half.SECOND)))
 
-    # mongoshell command to get files which are in list of commits
+    # mongoshell command to get files which are in list of commitsissue
     # db.
