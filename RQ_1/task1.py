@@ -158,7 +158,7 @@ class DivideDataset:
             file_path = self.file.find_one({"_id": file["file_id"]}, {"path": 1})
             if filtering_file.is_source_code_file(file_path["path"]):
                 file['file_path'] = file_path["path"]
-                filtered_files.append(file)
+                filtered_files.append(file["file_id"])
 
         return filtered_files
 
@@ -233,24 +233,15 @@ class DivideDataset:
         """
         
         connected_file_pairs = []
-        common_file_ids = []
-        common_file_dict = dict()
-
+        # common_file_ids = []
+        # common_file_dict = dict()
+        file_dict = dict()
         if co_change == 'commit':
             file_dict = self.make_file_commit_dict(half)
         elif co_change == 'issue':
-            # if half == Half.FIRST:
-            file_dict_1 = self.make_file_issue_dict(Half.FIRST)
-            file_dict_2 = self.make_file_issue_dict(Half.SECOND)
-            # find common file_ids in both file_dict_1 and file_dict_2
-            common_file_ids = set(file_dict_1.keys()).intersection(set(file_dict_2.keys()))
-            
-            for file_id in common_file_ids:
-                # add the file_id and its issue_ids to common_file_dict
-                common_file_dict[file_id] = set(file_dict_1[file_id])
-                common_file_dict[file_id].update(file_dict_2[file_id])
+            file_dict = self.make_file_issue_dict(half)
 
-        file_combinations = list(itertools.combinations(common_file_ids, 2))
+        file_combinations = list(itertools.combinations(file_dict.keys(), 2))
         #print("combinations",len(file_combinations))
         # 4M
         #process_file_pairs(file_combinations, file_commit_dict)
@@ -264,7 +255,7 @@ class DivideDataset:
 
         pool = multiprocessing.Pool(processes=4)
         for chunk in chunks:
-            res = pool.apply_async(process_file_pairs, args=(chunk, common_file_dict))
+            res = pool.apply_async(process_file_pairs, args=(chunk, file_dict))
             #print(f'processed {len(chunk)} file pairs\n')
             connected_file_pairs.extend(res.get())
         pool.close()
@@ -408,7 +399,20 @@ if __name__ == "__main__":
     print(f" length of file-commit dict -> {len(divide_dataset.make_file_commit_dict(Half.SECOND))}")
     first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
     second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
-    divide_dataset.file_pair_evolution(first_half_file_pairs, second_half_file_pairs)
+    # filter the file pairs with files which are not common in both halves
+    first_half_files = set(divide_dataset.get_project_files(Half.FIRST))
+    second_half_files = set(divide_dataset.get_project_files(Half.SECOND))
+    common_files = first_half_files.intersection(second_half_files)
+    file_pair_1 = []
+    file_pair_2 = []
+    for file_pair in first_half_file_pairs:
+        if file_pair[0] in common_files and file_pair[1] in common_files:
+            file_pair_1.append(file_pair)
+    for file_pair in second_half_file_pairs:
+        if file_pair[0] in common_files and file_pair[1] in common_files:
+            file_pair_2.append(file_pair)
+    
+    divide_dataset.file_pair_evolution(file_pair_1, file_pair_2)
     #print(divide_dataset.make_connected_file_pairs(Half.SECOND)[:10])  
     # divide_dataset.file_pair_evolution()
     
