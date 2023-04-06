@@ -6,7 +6,7 @@ import multiprocessing
 import networkx as nx
 import pymongo
 
-from plot_commits import plot_commit
+#from plot_commits import plot_commit
 import filtering_file
 
 """
@@ -233,12 +233,24 @@ class DivideDataset:
         """
         
         connected_file_pairs = []
+        common_file_ids = []
+        common_file_dict = dict()
+
         if co_change == 'commit':
             file_dict = self.make_file_commit_dict(half)
         elif co_change == 'issue':
-            file_dict = self.make_file_issue_dict(half)
+            # if half == Half.FIRST:
+            file_dict_1 = self.make_file_issue_dict(Half.FIRST)
+            file_dict_2 = self.make_file_issue_dict(Half.SECOND)
+            # find common file_ids in both file_dict_1 and file_dict_2
+            common_file_ids = set(file_dict_1.keys()).intersection(set(file_dict_2.keys()))
+            
+            for file_id in common_file_ids:
+                # add the file_id and its issue_ids to common_file_dict
+                common_file_dict[file_id] = set(file_dict_1[file_id])
+                common_file_dict[file_id].update(file_dict_2[file_id])
 
-        file_combinations = list(itertools.combinations(file_dict.keys(), 2))
+        file_combinations = list(itertools.combinations(common_file_ids, 2))
         #print("combinations",len(file_combinations))
         # 4M
         #process_file_pairs(file_combinations, file_commit_dict)
@@ -252,7 +264,7 @@ class DivideDataset:
 
         pool = multiprocessing.Pool(processes=4)
         for chunk in chunks:
-            res = pool.apply_async(process_file_pairs, args=(chunk, file_dict))
+            res = pool.apply_async(process_file_pairs, args=(chunk, common_file_dict))
             #print(f'processed {len(chunk)} file pairs\n')
             connected_file_pairs.extend(res.get())
         pool.close()
@@ -348,6 +360,8 @@ class DivideDataset:
                 intermodule_file_pairs_second.append(file_pair)
 
         print(f"\t S1 \n connected file pairs in first and second -> {len(connected_file_pairs)}")
+        # percentage of connected file pairs in the first half which are also connected in the second half
+        print(f'\t{(len(connected_file_pairs)/len(first_set))*100} %')
         print('-'*60)
         print(f"\tconnected file pairs in first, but not second -> {len(disconnected_file_pairs)}")
         print('-'*60)
