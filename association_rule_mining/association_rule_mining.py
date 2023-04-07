@@ -6,6 +6,7 @@ from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 from collections import defaultdict
 from pymongo import MongoClient
+import multiprocessing as mp
 
 
 def timeit(f):
@@ -49,12 +50,24 @@ class AssociationMining:
     @timeit
     def get_transactions(self):
         commit_project_list = self.get_commit_project_info(self.project_name)
+        commit_project_list_1 = [d['_id'] for d in commit_project_list]
         query_file_action = list(self.file_action.find(
             {}, {"commit_id": 1, "file_id": 1}))
         #breakpoint()
-        filtered_file_action = [commit_file_pair for commit_file_pair in query_file_action if commit_file_pair['commit_id'] in commit_project_list]
-        print(f'filtered commits count : {len(filtered_file_action)}')
-        commit_file_df = pd.DataFrame(filtered_file_action)
+        pool = mp.Pool(mp.cpu_count())
+        chunks = np.array_split(query_file_action, mp.cpu_count())
+        filtered_list = []
+        for chunk in chunks:
+            res = pool.apply_async(filter_list, args=(chunk, commit_project_list_1))
+            filtered_list.extend(res.get())
+
+        pool.close()
+        pool.join()
+
+        print(f'filtered commits count : {len(filtered_list)}')
+        #filtered_file_action = [commit_file_pair for commit_file_pair in query_file_action if commit_file_pair['commit_id'] in commit_project_list]
+        #print(f'filtered commits count : {len(filtered_file_action)}')
+        commit_file_df = pd.DataFrame(filtered_list)
         grouped_df = commit_file_df.groupby('commit_id')['file_id'].agg(list)
         return grouped_df.values.tolist()
 
@@ -120,7 +133,14 @@ def main():
             print(len(assoc_mining.generate_assoc_rules()))
             time.sleep(2)
             assoc_mining.compute_transitive_rules()
-    
+
+
+def filter_list(chunk, commit_project_list):
+    filtered_list = []
+    for commit_file_pair in chunk:
+        if commit_file_pair['commit_id'] in commit_project_list:
+            filtered_list.append(commit_file_pair)
+    return filtered_list
 
 if __name__ == "__main__":
     main()
