@@ -39,6 +39,14 @@ class DivideDataset:
     
         self.file_commit_1 = self.make_file_commit_dict(Half.FIRST)
         self.file_commit_2 = self.make_file_commit_dict(Half.SECOND)
+        self.refactoring = self.db["refactoring"]
+        self.high_impact_refactoring = [
+            'extract_superclass', 'extract_and_move_method', 'extract_class'
+            'move_method', 'pull_up_method', 'pull_down_method', 
+            'extract_subclass', 'extract_interface', 'move_and_rename_class',
+            'move_and_rename_attribute', 'move_and_rename_class','move_attribute',
+            'move_class', 'move_method','pull_up_method','pull_down_method','pull_down_attribute',
+            'pull_up_attribute','rename_class']
         # self.commit_project = self.db["commit_with_project_info"]
 
 
@@ -263,6 +271,33 @@ class DivideDataset:
         print("connected file pairs",len(connected_file_pairs))
         return connected_file_pairs
         
+    def file_pair_frequency(self, half):
+
+        file_dict = self.make_file_issue_dict(half)
+        file_combinations = list(itertools.combinations(file_dict.keys(), 2))
+        file_pair_frequency = dict()
+
+        chunks = []
+        for i in range(0, len(file_combinations), 10000):
+            chunks.append(file_combinations[i:i+10000])
+
+        pool = multiprocessing.Pool(processes=4)
+        for chunk in chunks:
+            res = pool.apply_async(process_pair_freq, args=(chunk, file_dict))
+            #print(f'processed {len(chunk)} file pairs\n')
+            file_pair_frequency.update(res.get())
+
+        pool.close()
+        pool.join()
+
+        # simple statistics on file pair frequency
+        print(f'number of file pairs for {half}: {len(file_pair_frequency)}')
+        print(f'average frequency of file pairs for {half}: {sum(file_pair_frequency.values())/len(file_pair_frequency)}')
+        print(f'max frequency of file pairs for {half}: {max(file_pair_frequency.values())}')
+        print(f'min frequency of file pairs for {half}: {min(file_pair_frequency.values())}')
+
+
+
     def make_commit_file_dict(self, half):
         """
         returns the dictionary of commit_id and list of file_id
@@ -350,6 +385,10 @@ class DivideDataset:
             if is_inter_module(file_pair):
                 intermodule_file_pairs_second.append(file_pair)
 
+        refactoring_pairs_1 = self.refactoring_pairs(connected_file_pairs)
+        refactoring_pairs_2 = self.refactoring_pairs(newly_connected_file_pairs)
+
+
         print(f"\t S1 \n connected file pairs in first and second -> {len(connected_file_pairs)}")
         # percentage of connected file pairs in the first half which are also connected in the second half
         print(f'\t{(len(connected_file_pairs)/len(first_set))*100} %')
@@ -361,6 +400,40 @@ class DivideDataset:
         print(f"\t S3 \n intermodule file pairs in first -> {(len(intermodule_file_pairs_first)/len(first_set))*100} %")
         print('-'*60)
         print(f"\tS4 \n intermodule file pairs in second -> {(len(intermodule_file_pairs_second)/len(second_set))*100} %")
+        print('-'*60)
+        print(f'percentage of refactoring pairs for S1 --> {len(refactoring_pairs_1)/len(connected_file_pairs)*100}')
+        print('-'*60)
+        print(f'percentage of refactoring pairs for S2 --> {len(refactoring_pairs_2)/len(newly_connected_file_pairs)*100}')
+
+
+    def check_refactoring_commit(self, commit_id):
+        if self.refactoring.find_one({"commit_id": commit_id}):
+            return True
+        return False
+
+
+    def refactoring_pairs(self, file_pair_set, half):
+
+        file_commit_dict = {}
+        if half == Half.FIRST:
+            file_commit_dict = self.file_commit_1
+        else:
+            file_commit_dict = self.file_commit_2
+
+        # traverse the file pair set, get the commit list for each file pair
+        # and check if any of the commit is a refactoring commit
+        refactoring_pair = []
+        for file_pair in file_pair_set:
+            file1_commit_list = file_commit_dict[file_pair[0]]
+            file2_commit_list = file_commit_dict[file_pair[1]]
+            for commit in file1_commit_list:
+                if commit in file2_commit_list:
+                    if self.check_refactoring_commit(commit):
+                        refactoring_pair.append(file_pair)
+                        break
+
+        return refactoring_pair
+                    
 
 def process_file_pairs(chunk, file_commit_dict):
     """
@@ -372,6 +445,14 @@ def process_file_pairs(chunk, file_commit_dict):
             connected_file_pairs.append((file_id, file_id2))
 
     return connected_file_pairs
+
+def process_pair_freq(chunk, file_dict):
+
+    freq_dict = {}
+    for file_id, file_id2 in chunk:
+        freq_dict[(file_id, file_id2)] = set(file_dict[file_id]).intersection(file_dict[file_id2])
+
+    return freq_dict
 
 def is_inter_module(file_pair):
     """

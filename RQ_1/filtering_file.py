@@ -12,7 +12,16 @@ source_file_extensions = [
     'pl', 
     'py', 
     'R', 
-    'r']
+    'r',
+    'aj',
+    'RexsterExtension',
+    'awk',
+    'MPL',
+    'java~',
+    'mhtml',
+    'jspf',
+    'dml',
+    'pydml']
 
 
 def is_source_code_file(file_path):
