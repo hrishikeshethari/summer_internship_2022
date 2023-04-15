@@ -40,13 +40,7 @@ class DivideDataset:
         self.file_commit_1 = self.make_file_commit_dict(Half.FIRST)
         self.file_commit_2 = self.make_file_commit_dict(Half.SECOND)
         self.refactoring = self.db["refactoring"]
-        self.high_impact_refactoring = [
-            'extract_superclass', 'extract_and_move_method', 'extract_class'
-            'move_method', 'pull_up_method', 'pull_down_method', 
-            'extract_subclass', 'extract_interface', 'move_and_rename_class',
-            'move_and_rename_attribute', 'move_and_rename_class','move_attribute',
-            'move_class', 'move_method','pull_up_method','pull_down_method','pull_down_attribute',
-            'pull_up_attribute','rename_class']
+        
         # self.commit_project = self.db["commit_with_project_info"]
 
 
@@ -358,6 +352,32 @@ class DivideDataset:
                 return True
         return False
     
+    def get_filepair_sets(self, first_half_file_pairs, second_half_file_pairs):
+        first_set = set(first_half_file_pairs)
+        second_set = set(second_half_file_pairs)
+        connected_file_pairs = []
+        # file pairs which are connected in the first half and also connected in the second half
+        connected_file_pairs = first_set.intersection(second_set)
+        # file pairs which are connected in the first half but not connected in the second half
+        disconnected_file_pairs = first_set.difference(second_set)
+        # file pairs which are not connected in the first half but connected in the second half
+        newly_connected_file_pairs = second_set.difference(first_set)
+        s3 = []
+        s4 = []
+        for file_pair in first_set:
+            if is_inter_module(file_pair):
+                s3.append(file_pair)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+        for file_pair in second_set:
+            if is_inter_module(file_pair):
+                s4.append(file_pair)
+        set_dict = { 's1' : connected_file_pairs,
+                     's2' : newly_connected_file_pairs,
+                     's3' : s3,
+                     's4' : s4}
+        
+        return set_dict
+
     def file_pair_evolution(self, first_half_file_pairs, second_half_file_pairs):
         """
         Select the pairs which are connected (at least one commit exists where both files are committed together ) in the 
@@ -385,8 +405,8 @@ class DivideDataset:
             if is_inter_module(file_pair):
                 intermodule_file_pairs_second.append(file_pair)
 
-        refactoring_pairs_1 = self.refactoring_pairs(connected_file_pairs)
-        refactoring_pairs_2 = self.refactoring_pairs(newly_connected_file_pairs)
+        # refactoring_pairs_1 = self.refactoring_pairs(connected_file_pairs)
+        # refactoring_pairs_2 = self.refactoring_pairs(newly_connected_file_pairs)
 
 
         print(f"\t S1 \n connected file pairs in first and second -> {len(connected_file_pairs)}")
@@ -401,10 +421,6 @@ class DivideDataset:
         print('-'*60)
         print(f"\tS4 \n intermodule file pairs in second -> {(len(intermodule_file_pairs_second)/len(second_set))*100} %")
         print('-'*60)
-        print(f'percentage of refactoring pairs for S1 --> {len(refactoring_pairs_1)/len(connected_file_pairs)*100}')
-        print('-'*60)
-        print(f'percentage of refactoring pairs for S2 --> {len(refactoring_pairs_2)/len(newly_connected_file_pairs)*100}')
-
 
     def check_refactoring_commit(self, commit_id):
         if self.refactoring.find_one({"commit_id": commit_id}):
