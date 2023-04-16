@@ -5,7 +5,7 @@ import copy
 import multiprocessing
 import networkx as nx
 import pymongo
-
+import pickle
 #from plot_commits import plot_commit
 import filtering_file
 
@@ -510,6 +510,16 @@ if __name__ == "__main__":
             file_pair_2.append(file_pair)
     
     divide_dataset.file_pair_evolution(file_pair_1, file_pair_2)
+    # pickle the file pairs
+    sets_dict = divide_dataset.get_filepair_sets()
+
+    with open('giraph_file_pairs.pkl', 'wb') as f:
+        # pickle sets_dict to file
+        pickle.dump(sets_dict, f)
+
+
+
+
     #print(divide_dataset.make_connected_file_pairs(Half.SECOND)[:10])  
     # divide_dataset.file_pair_evolution()
     
