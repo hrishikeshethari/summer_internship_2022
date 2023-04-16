@@ -1,0 +1,1514 @@
+--- mahout ---
+unique issue_ids in file_issue_dict for Half.FIRST : 678
+avg issue per file for Half.FIRST: 0.1509686038744155
+connected file pairs 522566
+unique issue_ids in file_issue_dict for Half.SECOND : 271
+avg issue per file for Half.SECOND: 0.06399055489964581
+connected file pairs 1762025
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.8398567569265565
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 0
+pull_up_attribute : 0
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 0
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 1032
+move_method : 5122
+move_and_rename_attribute : 0
+move_class : 28508
+extract_and_move_method : 11186
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 6331
+replace_variable_with_attribute : 0
+replace_attribute : 0
+rename_method : 9311
+change_variable_type : 36553
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 112
+extract_method : 3427
+split_variable : 0
+extract_class : 0
+rename_attribute : 461
+extract_variable : 3339
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 0
+inline_variable : 518
+rename_variable : 10430
+extract_attribute : 17
+change_return_type : 34
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9097971030428816
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 0
+pull_up_attribute : 0
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 6872
+pull_up_method : 0
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 4447
+move_method : 143999
+move_and_rename_attribute : 0
+move_class : 361971
+extract_and_move_method : 229010
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 101384
+replace_variable_with_attribute : 0
+replace_attribute : 0
+rename_method : 163886
+change_variable_type : 5401822
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 623
+extract_method : 56646
+split_variable : 0
+extract_class : 0
+rename_attribute : 43659
+extract_variable : 89601
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 0
+inline_variable : 7292
+rename_variable : 171161
+extract_attribute : 13209
+change_return_type : 6941
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9617622745874452
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 60529
+pull_up_attribute : 238409
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 172860
+pull_up_method : 692369
+move_and_rename_class : 2220
+extract_superclass : 369789
+move_attribute : 464389
+move_method : 1297773
+move_and_rename_attribute : 0
+move_class : 671029
+extract_and_move_method : 2572564
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 140656
+rename_parameter : 1192975
+replace_variable_with_attribute : 119854
+replace_attribute : 0
+rename_method : 744418
+change_variable_type : 7232744
+merge_attribute : 0
+merge_variable : 25622
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 161125
+extract_method : 384321
+split_variable : 0
+extract_class : 0
+rename_attribute : 956500
+extract_variable : 638162
+push_down_attribute : 0
+merge_parameter : 9321
+inline_method : 142409
+inline_variable : 151610
+rename_variable : 1654771
+extract_attribute : 3287630
+change_return_type : 1047455
+--------------------------------------------------
+--- S4 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.910436447894084
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 0
+pull_up_attribute : 0
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 5390
+pull_up_method : 0
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 4445
+move_method : 144146
+move_and_rename_attribute : 0
+move_class : 380674
+extract_and_move_method : 230564
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 103075
+replace_variable_with_attribute : 0
+replace_attribute : 0
+rename_method : 165625
+change_variable_type : 5298672
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 734
+extract_method : 58466
+split_variable : 0
+extract_class : 0
+rename_attribute : 43267
+extract_variable : 89071
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 0
+inline_variable : 7376
+rename_variable : 166146
+extract_attribute : 12717
+change_return_type : 6629
+--------------------------------------------------
+--- pdfbox ---
+unique issue_ids in file_issue_dict for Half.FIRST : 642
+avg issue per file for Half.FIRST: 0.24382833270034182
+connected file pairs 836994
+unique issue_ids in file_issue_dict for Half.SECOND : 1689
+avg issue per file for Half.SECOND: 0.8648233486943164
+connected file pairs 427708
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9566138746375196
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 4905
+pull_up_attribute : 17915
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 47894
+pull_up_method : 98332
+move_and_rename_class : 0
+extract_superclass : 21624
+move_attribute : 14928
+move_method : 172567
+move_and_rename_attribute : 37742
+move_class : 155476
+extract_and_move_method : 257248
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 194629
+rename_parameter : 246341
+replace_variable_with_attribute : 10101
+replace_attribute : 2574
+rename_method : 111856
+change_variable_type : 271023
+merge_attribute : 2054
+merge_variable : 0
+split_attribute : 2302
+split_parameter : 0
+parametrize_variable : 10500
+extract_method : 201526
+split_variable : 0
+extract_class : 0
+rename_attribute : 88357
+extract_variable : 136712
+push_down_attribute : 47166
+merge_parameter : 0
+inline_method : 38591
+inline_variable : 55098
+rename_variable : 369988
+extract_attribute : 151829
+change_return_type : 221866
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9739727052718246
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 91897
+pull_up_attribute : 569097
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 500773
+pull_up_method : 1493187
+move_and_rename_class : 0
+extract_superclass : 141739
+move_attribute : 576318
+move_method : 1479302
+move_and_rename_attribute : 468865
+move_class : 2629840
+extract_and_move_method : 2306622
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 1507539
+rename_parameter : 2739013
+replace_variable_with_attribute : 170935
+replace_attribute : 22146
+rename_method : 1682938
+change_variable_type : 3529364
+merge_attribute : 11896
+merge_variable : 0
+split_attribute : 53528
+split_parameter : 0
+parametrize_variable : 101671
+extract_method : 1945838
+split_variable : 0
+extract_class : 0
+rename_attribute : 1109792
+extract_variable : 2137680
+push_down_attribute : 423117
+merge_parameter : 1457
+inline_method : 627846
+inline_variable : 508986
+rename_variable : 3323144
+extract_attribute : 1787651
+change_return_type : 1491821
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.8058787106907158
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 15177
+pull_up_attribute : 36657
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 97089
+pull_up_method : 323535
+move_and_rename_class : 0
+extract_superclass : 91331
+move_attribute : 70793
+move_method : 467329
+move_and_rename_attribute : 71966
+move_class : 2505945
+extract_and_move_method : 867934
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 558172
+rename_parameter : 762573
+replace_variable_with_attribute : 43488
+replace_attribute : 6804
+rename_method : 287919
+change_variable_type : 1053863
+merge_attribute : 2909
+merge_variable : 57357
+split_attribute : 5060
+split_parameter : 0
+parametrize_variable : 24070
+extract_method : 588756
+split_variable : 0
+extract_class : 17356
+rename_attribute : 378837
+extract_variable : 499582
+push_down_attribute : 137031
+merge_parameter : 33454
+inline_method : 134978
+inline_variable : 117109
+rename_variable : 3007574
+extract_attribute : 801062
+change_return_type : 540955
+--------------------------------------------------
+--- S4 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9742289674019129
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 94098
+pull_up_attribute : 567987
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 519393
+pull_up_method : 1505562
+move_and_rename_class : 0
+extract_superclass : 160474
+move_attribute : 566714
+move_method : 1568381
+move_and_rename_attribute : 489701
+move_class : 2697542
+extract_and_move_method : 2443647
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 1622200
+rename_parameter : 2886949
+replace_variable_with_attribute : 176814
+replace_attribute : 23158
+rename_method : 1717246
+change_variable_type : 3655896
+merge_attribute : 13949
+merge_variable : 0
+split_attribute : 53610
+split_parameter : 0
+parametrize_variable : 105923
+extract_method : 2058396
+split_variable : 0
+extract_class : 0
+rename_attribute : 1148882
+extract_variable : 2188042
+push_down_attribute : 450385
+merge_parameter : 1299
+inline_method : 631497
+inline_variable : 544850
+rename_variable : 3534511
+extract_attribute : 1867704
+change_return_type : 1658092
+--------------------------------------------------
+--- opennlp ---
+unique issue_ids in file_issue_dict for Half.FIRST : 223
+avg issue per file for Half.FIRST: 0.06543427230046948
+connected file pairs 2125595
+unique issue_ids in file_issue_dict for Half.SECOND : 374
+avg issue per file for Half.SECOND: 0.33815551537070526
+connected file pairs 350576
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.8363202173341513
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 12
+pull_up_attribute : 2057
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 320
+move_and_rename_class : 0
+extract_superclass : 799
+move_attribute : 27212
+move_method : 5623
+move_and_rename_attribute : 0
+move_class : 10768
+extract_and_move_method : 37052
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 152958
+replace_variable_with_attribute : 1515
+replace_attribute : 0
+rename_method : 30359
+change_variable_type : 85533
+merge_attribute : 0
+merge_variable : 8957
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 23317
+split_variable : 0
+extract_class : 0
+rename_attribute : 77
+extract_variable : 4978
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 13754
+inline_variable : 99560
+rename_variable : 59816
+extract_attribute : 31890
+change_return_type : 68055
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9201395721013209
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 1079
+pull_up_attribute : 35792
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 26469
+move_and_rename_class : 0
+extract_superclass : 8923
+move_attribute : 113007
+move_method : 53977
+move_and_rename_attribute : 0
+move_class : 78093
+extract_and_move_method : 247798
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 1287
+rename_parameter : 781606
+replace_variable_with_attribute : 3120
+replace_attribute : 0
+rename_method : 207005
+change_variable_type : 516571
+merge_attribute : 0
+merge_variable : 34738
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 160620
+split_variable : 0
+extract_class : 0
+rename_attribute : 6775
+extract_variable : 40548
+push_down_attribute : 0
+merge_parameter : 31658
+inline_method : 39920
+inline_variable : 601297
+rename_variable : 352986
+extract_attribute : 158874
+change_return_type : 391308
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.4557591998114255
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 105261
+pull_up_attribute : 27392
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 515
+pull_up_method : 40213
+move_and_rename_class : 6590
+extract_superclass : 42715
+move_attribute : 337572
+move_method : 510402
+move_and_rename_attribute : 0
+move_class : 233319
+extract_and_move_method : 108296
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 649115
+replace_variable_with_attribute : 6218
+replace_attribute : 0
+rename_method : 277485
+change_variable_type : 319944
+merge_attribute : 0
+merge_variable : 28920
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 306519
+split_variable : 0
+extract_class : 0
+rename_attribute : 107
+extract_variable : 27456
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 85033
+inline_variable : 324043
+rename_variable : 257734
+extract_attribute : 124605
+change_return_type : 248875
+--------------------------------------------------
+--- S4 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9229393134815274
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 1003
+pull_up_attribute : 35919
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 25731
+move_and_rename_class : 0
+extract_superclass : 8944
+move_attribute : 133968
+move_method : 55299
+move_and_rename_attribute : 0
+move_class : 85347
+extract_and_move_method : 274943
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 1176
+rename_parameter : 900066
+replace_variable_with_attribute : 4260
+replace_attribute : 0
+rename_method : 226787
+change_variable_type : 579676
+merge_attribute : 0
+merge_variable : 42214
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 175631
+split_variable : 0
+extract_class : 0
+rename_attribute : 6569
+extract_variable : 43696
+push_down_attribute : 0
+merge_parameter : 30953
+inline_method : 51238
+inline_variable : 677785
+rename_variable : 398422
+extract_attribute : 183618
+change_return_type : 442072
+--------------------------------------------------
+--- openwebbeans ---
+unique issue_ids in file_issue_dict for Half.FIRST : 686
+avg issue per file for Half.FIRST: 0.16971796140524492
+connected file pairs 782433
+unique issue_ids in file_issue_dict for Half.SECOND : 252
+avg issue per file for Half.SECOND: 0.30920245398773005
+connected file pairs 40136
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.7151717557251909
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 3116
+pull_up_attribute : 8740
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 696
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 2776
+move_method : 3046
+move_and_rename_attribute : 0
+move_class : 132
+extract_and_move_method : 0
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 0
+replace_variable_with_attribute : 0
+replace_attribute : 0
+rename_method : 31461
+change_variable_type : 0
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 47448
+split_variable : 0
+extract_class : 0
+rename_attribute : 0
+extract_variable : 0
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 10630
+inline_variable : 0
+rename_variable : 0
+extract_attribute : 0
+change_return_type : 0
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.7153565129755606
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 11385
+pull_up_attribute : 13683
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 2983
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 5662
+move_method : 9550
+move_and_rename_attribute : 0
+move_class : 150
+extract_and_move_method : 0
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 0
+replace_variable_with_attribute : 0
+replace_attribute : 0
+rename_method : 78690
+change_variable_type : 0
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 122259
+split_variable : 0
+extract_class : 0
+rename_attribute : 0
+extract_variable : 0
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 21689
+inline_variable : 0
+rename_variable : 0
+extract_attribute : 0
+change_return_type : 0
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.8892087281762553
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 485953
+pull_up_attribute : 152299
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 183986
+move_and_rename_class : 36705
+extract_superclass : 105552
+move_attribute : 1852756
+move_method : 620054
+move_and_rename_attribute : 0
+move_class : 513732
+extract_and_move_method : 0
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 0
+replace_variable_with_attribute : 0
+replace_attribute : 0
+rename_method : 2382858
+change_variable_type : 0
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 3188930
+split_variable : 0
+extract_class : 0
+rename_attribute : 0
+extract_variable : 0
+push_down_attribute : 239722
+merge_parameter : 0
+inline_method : 986613
+inline_variable : 0
+rename_variable : 0
+extract_attribute : 0
+change_return_type : 0
+--------------------------------------------------
+--- S4 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.7216126830804767
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 13756
+pull_up_attribute : 21481
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 0
+pull_up_method : 3405
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 8032
+move_method : 11918
+move_and_rename_attribute : 0
+move_class : 276
+extract_and_move_method : 0
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 0
+replace_variable_with_attribute : 0
+replace_attribute : 0
+rename_method : 105586
+change_variable_type : 0
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 0
+extract_method : 161913
+split_variable : 0
+extract_class : 0
+rename_attribute : 0
+extract_variable : 0
+push_down_attribute : 0
+merge_parameter : 0
+inline_method : 30724
+inline_variable : 0
+rename_variable : 0
+extract_attribute : 0
+change_return_type : 0
+--------------------------------------------------
+--- mina-sshd ---
+unique issue_ids in file_issue_dict for Half.FIRST : 222
+avg issue per file for Half.FIRST: 0.39928057553956836
+connected file pairs 8099
+unique issue_ids in file_issue_dict for Half.SECOND : 488
+avg issue per file for Half.SECOND: 0.24784154393092941
+connected file pairs 455592
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9983202687569989
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 0
+pull_up_attribute : 20828
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 28459
+pull_up_method : 52290
+move_and_rename_class : 10
+extract_superclass : 9828
+move_attribute : 74065
+move_method : 27240
+move_and_rename_attribute : 0
+move_class : 16924
+extract_and_move_method : 66724
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 14724
+replace_variable_with_attribute : 8486
+replace_attribute : 0
+rename_method : 20841
+change_variable_type : 126866
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 512
+parametrize_variable : 146
+extract_method : 22957
+split_variable : 1052
+extract_class : 0
+rename_attribute : 5110
+extract_variable : 108737
+push_down_attribute : 7873
+merge_parameter : 0
+inline_method : 13692
+inline_variable : 432
+rename_variable : 23123
+extract_attribute : 19956
+change_return_type : 34206
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9998148988774939
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 63637
+pull_up_attribute : 816751
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 1512863
+pull_up_method : 2008384
+move_and_rename_class : 96867
+extract_superclass : 679792
+move_attribute : 4197982
+move_method : 4459958
+move_and_rename_attribute : 0
+move_class : 829034
+extract_and_move_method : 5621567
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 107893
+rename_parameter : 1143807
+replace_variable_with_attribute : 622422
+replace_attribute : 0
+rename_method : 2318063
+change_variable_type : 7672345
+merge_attribute : 0
+merge_variable : 1574
+split_attribute : 0
+split_parameter : 19207
+parametrize_variable : 3399
+extract_method : 1314223
+split_variable : 46621
+extract_class : 0
+rename_attribute : 297077
+extract_variable : 4348687
+push_down_attribute : 248896
+merge_parameter : 0
+inline_method : 284358
+inline_variable : 30347
+rename_variable : 1869389
+extract_attribute : 1545846
+change_return_type : 1492284
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9056714663532177
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 0
+pull_up_attribute : 40122
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 54330
+pull_up_method : 104472
+move_and_rename_class : 4
+extract_superclass : 19127
+move_attribute : 142131
+move_method : 62335
+move_and_rename_attribute : 0
+move_class : 27923
+extract_and_move_method : 161070
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 35091
+replace_variable_with_attribute : 18803
+replace_attribute : 0
+rename_method : 55861
+change_variable_type : 266630
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 693
+parametrize_variable : 536
+extract_method : 64056
+split_variable : 2424
+extract_class : 0
+rename_attribute : 11964
+extract_variable : 218839
+push_down_attribute : 13150
+merge_parameter : 0
+inline_method : 27607
+inline_variable : 866
+rename_variable : 44960
+extract_attribute : 37583
+change_return_type : 83711
+--------------------------------------------------
+--- S4 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9998690898066893
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 62583
+pull_up_attribute : 809162
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 1479419
+pull_up_method : 1979291
+move_and_rename_class : 96053
+extract_superclass : 659211
+move_attribute : 4113985
+move_method : 4341698
+move_and_rename_attribute : 0
+move_class : 817153
+extract_and_move_method : 5470110
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 104422
+rename_parameter : 1120415
+replace_variable_with_attribute : 607410
+replace_attribute : 0
+rename_method : 2256429
+change_variable_type : 7515301
+merge_attribute : 0
+merge_variable : 1529
+split_attribute : 0
+split_parameter : 19335
+parametrize_variable : 3537
+extract_method : 1278155
+split_variable : 46512
+extract_class : 0
+rename_attribute : 289331
+extract_variable : 4285120
+push_down_attribute : 245682
+merge_parameter : 0
+inline_method : 285560
+inline_variable : 29553
+rename_variable : 1823515
+extract_attribute : 1505418
+change_return_type : 1469873
+--------------------------------------------------
+--- helix ---
+unique issue_ids in file_issue_dict for Half.FIRST : 251
+avg issue per file for Half.FIRST: 0.08622466506355204
+connected file pairs 270402
+unique issue_ids in file_issue_dict for Half.SECOND : 155
+avg issue per file for Half.SECOND: 0.14458955223880596
+connected file pairs 5618
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.998093422306959
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 9482
+pull_up_attribute : 518
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 4608
+pull_up_method : 7750
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 4527
+move_method : 14291
+move_and_rename_attribute : 162
+move_class : 12783
+extract_and_move_method : 34816
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 2351
+rename_parameter : 8707
+replace_variable_with_attribute : 5681
+replace_attribute : 0
+rename_method : 49166
+change_variable_type : 17088
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 1208
+extract_method : 38927
+split_variable : 0
+extract_class : 0
+rename_attribute : 5538
+extract_variable : 15471
+push_down_attribute : 164
+merge_parameter : 0
+inline_method : 1036
+inline_variable : 64
+rename_variable : 29507
+extract_attribute : 5011
+change_return_type : 9507
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 1.0
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 17841
+pull_up_attribute : 8458
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 3804
+pull_up_method : 18260
+move_and_rename_class : 0
+extract_superclass : 276
+move_attribute : 9677
+move_method : 60056
+move_and_rename_attribute : 666
+move_class : 46285
+extract_and_move_method : 114905
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 27729
+rename_parameter : 25326
+replace_variable_with_attribute : 12753
+replace_attribute : 775
+rename_method : 85363
+change_variable_type : 34699
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 5312
+extract_method : 132156
+split_variable : 0
+extract_class : 0
+rename_attribute : 33887
+extract_variable : 42724
+push_down_attribute : 232
+merge_parameter : 0
+inline_method : 2338
+inline_variable : 46
+rename_variable : 82953
+extract_attribute : 14354
+change_return_type : 21790
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9293931856764973
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 183367
+pull_up_attribute : 18249
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 78338
+pull_up_method : 115077
+move_and_rename_class : 668
+extract_superclass : 37080
+move_attribute : 275343
+move_method : 599808
+move_and_rename_attribute : 4149
+move_class : 1013330
+extract_and_move_method : 1411184
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 482670
+rename_parameter : 470571
+replace_variable_with_attribute : 79745
+replace_attribute : 0
+rename_method : 926052
+change_variable_type : 1045170
+merge_attribute : 0
+merge_variable : 441
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 20869
+extract_method : 884134
+split_variable : 0
+extract_class : 0
+rename_attribute : 84716
+extract_variable : 296148
+push_down_attribute : 4869
+merge_parameter : 6
+inline_method : 32014
+inline_variable : 6071
+rename_variable : 696771
+extract_attribute : 109377
+change_return_type : 334368
+--------------------------------------------------
+--- S4 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 1.0
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 16822
+pull_up_attribute : 5467
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 7456
+pull_up_method : 15614
+move_and_rename_class : 0
+extract_superclass : 276
+move_attribute : 10224
+move_method : 32388
+move_and_rename_attribute : 748
+move_class : 47037
+extract_and_move_method : 87159
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 21292
+rename_parameter : 22592
+replace_variable_with_attribute : 16624
+replace_attribute : 726
+rename_method : 112427
+change_variable_type : 38688
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 4193
+extract_method : 119590
+split_variable : 0
+extract_class : 0
+rename_attribute : 21628
+extract_variable : 41410
+push_down_attribute : 371
+merge_parameter : 0
+inline_method : 2299
+inline_variable : 110
+rename_variable : 76158
+extract_attribute : 16775
+change_return_type : 25139
+--------------------------------------------------
+--- curator ---
+unique issue_ids in file_issue_dict for Half.FIRST : 124
+avg issue per file for Half.FIRST: 0.0856353591160221
+connected file pairs 66560
+unique issue_ids in file_issue_dict for Half.SECOND : 117
+avg issue per file for Half.SECOND: 0.12086776859504132
+connected file pairs 122626
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.5011128917378918
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 0
+pull_up_attribute : 5156
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 45628
+pull_up_method : 0
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 5673
+move_method : 78574
+move_and_rename_attribute : 0
+move_class : 34916
+extract_and_move_method : 80316
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 2322
+rename_parameter : 6081
+replace_variable_with_attribute : 6518
+replace_attribute : 0
+rename_method : 31020
+change_variable_type : 242371
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 5987
+extract_method : 245292
+split_variable : 0
+extract_class : 0
+rename_attribute : 4511
+extract_variable : 15176
+push_down_attribute : 3222
+merge_parameter : 0
+inline_method : 0
+inline_variable : 1418
+rename_variable : 46986
+extract_attribute : 6324
+change_return_type : 35537
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9422335815978116
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 13556
+pull_up_attribute : 569602
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 340351
+pull_up_method : 115320
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 460505
+move_method : 147836
+move_and_rename_attribute : 205171
+move_class : 601109
+extract_and_move_method : 486416
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 138565
+rename_parameter : 603797
+replace_variable_with_attribute : 17640
+replace_attribute : 0
+rename_method : 698162
+change_variable_type : 792054
+merge_attribute : 47411
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 2635
+extract_method : 857504
+split_variable : 0
+extract_class : 0
+rename_attribute : 353417
+extract_variable : 109981
+push_down_attribute : 91881
+merge_parameter : 0
+inline_method : 99508
+inline_variable : 12316
+rename_variable : 577751
+extract_attribute : 105139
+change_return_type : 1015920
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.6692582828164094
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 0
+pull_up_attribute : 32819
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 198343
+pull_up_method : 9540
+move_and_rename_class : 0
+extract_superclass : 9128
+move_attribute : 153148
+move_method : 328739
+move_and_rename_attribute : 0
+move_class : 257473
+extract_and_move_method : 307059
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 4064
+rename_parameter : 44773
+replace_variable_with_attribute : 22301
+replace_attribute : 0
+rename_method : 63516
+change_variable_type : 779037
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 25174
+extract_method : 616585
+split_variable : 0
+extract_class : 0
+rename_attribute : 18014
+extract_variable : 45361
+push_down_attribute : 12239
+merge_parameter : 0
+inline_method : 0
+inline_variable : 5893
+rename_variable : 145992
+extract_attribute : 28786
+change_return_type : 169014
+--------------------------------------------------
+--- S4 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.8773426623353443
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 12724
+pull_up_attribute : 556697
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 355958
+pull_up_method : 113649
+move_and_rename_class : 0
+extract_superclass : 0
+move_attribute : 452746
+move_method : 201240
+move_and_rename_attribute : 198163
+move_class : 578414
+extract_and_move_method : 529748
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 137785
+rename_parameter : 591700
+replace_variable_with_attribute : 23420
+replace_attribute : 0
+rename_method : 697937
+change_variable_type : 955066
+merge_attribute : 45740
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 8160
+extract_method : 1009750
+split_variable : 0
+extract_class : 0
+rename_attribute : 346299
+extract_variable : 116187
+push_down_attribute : 93617
+merge_parameter : 0
+inline_method : 97609
+inline_variable : 13316
+rename_variable : 587370
+extract_attribute : 109623
+change_return_type : 1009764
+--------------------------------------------------
+--- storm ---
+unique issue_ids in file_issue_dict for Half.FIRST : 226
+avg issue per file for Half.FIRST: 0.13380698638247485
+connected file pairs 76836
+unique issue_ids in file_issue_dict for Half.SECOND : 1115
+avg issue per file for Half.SECOND: 0.19910714285714284
+connected file pairs 7779526
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.7440833183695457
+--- S1 ---
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 730
+pull_up_attribute : 34901
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 5334
+pull_up_method : 45376
+move_and_rename_class : 0
+extract_superclass : 78754
+move_attribute : 839404
+move_method : 29925
+move_and_rename_attribute : 0
+move_class : 1566572
+extract_and_move_method : 415946
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 122622
+replace_variable_with_attribute : 5425
+replace_attribute : 0
+rename_method : 99908
+change_variable_type : 85493
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 6672
+extract_method : 153328
+split_variable : 0
+extract_class : 0
+rename_attribute : 32982
+extract_variable : 28268
+push_down_attribute : 802
+merge_parameter : 0
+inline_method : 225895
+inline_variable : 0
+rename_variable : 567386
+extract_attribute : 107755
+change_return_type : 113032
+--------------------------------------------------
+--- S2 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.861924787668636
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 288968
+pull_up_attribute : 983916
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 809570
+pull_up_method : 4289979
+move_and_rename_class : 1027922
+extract_superclass : 3679385
+move_attribute : 21748124
+move_method : 13240928
+move_and_rename_attribute : 86816
+move_class : 91401042
+extract_and_move_method : 14165224
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 1187315
+rename_parameter : 6204908
+replace_variable_with_attribute : 909685
+replace_attribute : 0
+rename_method : 6689700
+change_variable_type : 27456599
+merge_attribute : 0
+merge_variable : 48908
+split_attribute : 0
+split_parameter : 0
+parametrize_variable : 864869
+extract_method : 9048645
+split_variable : 0
+extract_class : 0
+rename_attribute : 2213206
+extract_variable : 4839038
+push_down_attribute : 21845
+merge_parameter : 0
+inline_method : 4490329
+inline_variable : 513937
+rename_variable : 18896102
+extract_attribute : 9313596
+change_return_type : 8298812
+--------------------------------------------------
+--- S3 ---
+---- All commits for file pairs ----
+Percentage of refactoring commits: 0.9619346355094102
+Distribution of refactoring commits:
+--------------------------------------------------
+High impact refactoring types:
+pull_down_method : 0
+rename_class : 4908
+pull_up_attribute : 36952
+extract_subclass : 0
+pull_down_attribute : 0
+extract_classmove_method : 0
+extract_interface : 16300
+pull_up_method : 74700
+move_and_rename_class : 0
+extract_superclass : 114040
+move_attribute : 1551372
+move_method : 70733
+move_and_rename_attribute : 0
+move_class : 2390910
+extract_and_move_method : 688420
+--------------------------------------------------
+Low impact refactoring types:
+push_down_method : 0
+rename_parameter : 197165
+replace_variable_with_attribute : 11749
+replace_attribute : 0
+rename_method : 213677
+change_variable_type : 193815
+merge_attribute : 0
+merge_variable : 0
+split_attribute : 0
+split_parameter : 1
+parametrize_variable : 17851
+extract_method : 257598
+split_variable : 0
+extract_class : 0
+rename_attribute : 82072
+extract_variable : 55965
+push_down_attribute : 18357
+merge_parameter : 0
+inline_method : 569444
+inline_variable : 0
+rename_variable : 1188986
+extract_attribute : 158871
+change_return_type : 209874
+--------------------------------------------------
+--- S4 ---
