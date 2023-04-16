@@ -19,5 +19,7 @@ while True:
     # move mouse by 50 pixels left
     pyautogui.moveRel(-50, 0, duration=0.25)
     # every minute write message to console
+    # click where the mouse is
+    pyautogui.click()
     if seconds % 60 == 0:
         print(" Movement made at {}".format(datetime.now().time()))
