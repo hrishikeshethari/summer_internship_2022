@@ -18,6 +18,8 @@ class Task2:
         self.file_commit_1 = dividedataset.make_file_commit_dict(Half.FIRST)
         self.file_commit_2 = dividedataset.make_file_commit_dict(Half.SECOND)
         self.file_commit_dict = {**self.file_commit_1, **self.file_commit_2}
+        self.ref_list = list(self.refactoring.find())
+        self.ref_dict = { ref["commit_id"] : (ref["type"], ref["description"]) for ref in self.ref_list }
 
         self.high_impact_types = {'extract_superclass', 'extract_and_move_method', 'extract_class'
             'move_method', 'pull_up_method', 'pull_down_method', 
@@ -36,6 +38,12 @@ class Task2:
                 low_impact_types.add(refactoring['type'])
 
         return low_impact_types
+    
+    def check_refactoring_commit(self, commit_id : str) -> bool:
+        q = self.refactoring.find_one({'commit_id' : commit_id})
+        if q is not None:
+            return True
+        return False
             
     def refactoring_commits(self, pairs, common_commits : bool, print_mode : bool) -> None:
 
@@ -109,13 +117,39 @@ if __name__ == '__main__':
     s4 = set_dict.get('s4')
 
     task2 = Task2(divide_dataset, s1=s1, s2=s2, s3=s3, s4=s4)
-    task2.refactoring_commits(s1, common_commits=True, print_mode=True)
+    task2.refactoring_commits(s1, common_commits=False, print_mode=True)
 
     # commits for s1
     file_commits = task2.refactoring_commits(s1, common_commits=False, print_mode=False)
     commits_only = [commit[2] for commit in file_commits]
 
     task2.refactoring_commits_distribution(commits_only)
+
+    # s2
+    task2.refactoring_commits(s2, common_commits=False, print_mode=True)
+
+    file_commits = task2.refactoring_commits(s2, common_commits=False, print_mode=False)
+    commits_only_2 = [commit[2] for commit in file_commits]
+
+    task2.refactoring_commits_distribution(commits_only_2)
+
+    # s3
+    task2.refactoring_commits(s3, common_commits=False, print_mode=True)
+
+    file_commits = task2.refactoring_commits(s3, common_commits=False, print_mode=False)
+    commits_only_3 = [commit[2] for commit in file_commits]
+
+    task2.refactoring_commits_distribution(commits_only_3)
+
+    # s4
+    task2.refactoring_commits(s4, common_commits=False, print_mode=True)
+
+    file_commits = task2.refactoring_commits(s4, common_commits=False, print_mode=False)
+    commits_only_4 = [commit[2] for commit in file_commits]
+
+    task2.refactoring_commits_distribution(commits_only_4)
+
+
 
 
     
