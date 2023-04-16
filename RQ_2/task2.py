@@ -40,16 +40,6 @@ class Task2:
                 low_impact_types.add(refactoring['type'])
 
         return low_impact_types
-<<<<<<< HEAD
-    
-    def check_refactoring_commit(self, commit_id : str) -> bool:
-        q = self.refactoring.find_one({'commit_id' : commit_id})
-        if q is not None:
-            return True
-        return False
-            
-    def refactoring_commits(self, pairs, common_commits : bool, print_mode : bool) -> None:
-=======
 
     def check_refactoring_commit(self, commit_id: str) -> bool:
         # ObjectId("5b23e067a1501a2542d12fc8") ObjectId("5b23e067a1501a2542d12fc8"),
@@ -59,7 +49,6 @@ class Task2:
         return False
 
     def refactoring_commits(self, pairs, common_commits: bool, print_mode: bool):
->>>>>>> 6b3191bc746e6e3cd869ae144c784a083e221921
 
         refactoring_commits = []
 
@@ -159,10 +148,6 @@ if __name__ == '__main__':
      'parquet-mr', 'tez', 'lens', 'phoenix',
      'kylin', 'ranger']
 
-<<<<<<< HEAD
-    task2 = Task2(divide_dataset, s1=s1, s2=s2, s3=s3, s4=s4)
-    task2.refactoring_commits(s1, common_commits=False, print_mode=True)
-=======
     for proj in project:
         print(f"--- {proj} ---")
         divide_dataset = DivideDataset(proj)
@@ -173,7 +158,6 @@ if __name__ == '__main__':
         s2 = set_dict.get('s2')
         s3 = set_dict.get('s3')
         s4 = set_dict.get('s4')
->>>>>>> 6b3191bc746e6e3cd869ae144c784a083e221921
 
         task2 = Task2(divide_dataset, s1=s1, s2=s2, s3=s3, s4=s4)
         task2.refactoring_commits(s1, common_commits=True, print_mode=True)
@@ -183,39 +167,10 @@ if __name__ == '__main__':
         file_commits = task2.refactoring_commits(s1, common_commits=False, print_mode=False)
         commits_only = [commit[2] for commit in file_commits]
 
-<<<<<<< HEAD
-    # s2
-    task2.refactoring_commits(s2, common_commits=False, print_mode=True)
-
-    file_commits = task2.refactoring_commits(s2, common_commits=False, print_mode=False)
-    commits_only_2 = [commit[2] for commit in file_commits]
-
-    task2.refactoring_commits_distribution(commits_only_2)
-
-    # s3
-    task2.refactoring_commits(s3, common_commits=False, print_mode=True)
-
-    file_commits = task2.refactoring_commits(s3, common_commits=False, print_mode=False)
-    commits_only_3 = [commit[2] for commit in file_commits]
-
-    task2.refactoring_commits_distribution(commits_only_3)
-
-    # s4
-    task2.refactoring_commits(s4, common_commits=False, print_mode=True)
-
-    file_commits = task2.refactoring_commits(s4, common_commits=False, print_mode=False)
-    commits_only_4 = [commit[2] for commit in file_commits]
-
-    task2.refactoring_commits_distribution(commits_only_4)
-
-
-
-=======
         task2.refactoring_commits_distribution(commits_only)
         # s2
         print('--- S2 ---')
         task2.refactoring_commits(s2, common_commits=False, print_mode=True)
->>>>>>> 6b3191bc746e6e3cd869ae144c784a083e221921
 
         file_commits = task2.refactoring_commits(s2, common_commits=False, print_mode=False)
         commits_only_2 = [commit[2] for commit in file_commits]

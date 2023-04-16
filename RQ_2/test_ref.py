@@ -3,6 +3,9 @@ from pymongo import MongoClient
 from multiprocessing import Pool
 from pymongo.cursor import Cursor
 import time
+import pickle
+
+
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client['smartshark']
@@ -15,6 +18,19 @@ def check_ref_commit(commit_id : str) -> bool:
         return True
     return False
 
+
+def pickle_if_slow(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        if end_time - start_time > 2:
+            with open(f"{func.__name__}output.pickle", "wb") as f:
+                pickle.dump(result, f)
+        pickle_msg = f"Function {func.__name__} took {end_time - start_time} seconds to complete.\n Pickled output to {func.__name__}output.pickle."
+        print(pickle_msg)
+        return result
+    return wrapper
 
 def cursor_to_list(cursor, num_processes: int = 4) -> list:
     """
@@ -45,13 +61,20 @@ def cursor_to_list(cursor, num_processes: int = 4) -> list:
     # Flatten the list of results and return
     return res
 
+@pickle_if_slow
+def slow_function():
+    time.sleep(3)
+    return [1, 2, 3, 4, 5]
+
 if __name__ == '__main__':
     #print(check_ref_commit(ObjectId('5bf51c47d2f8190d90f3c45')))
 
-    # time how much time it takes to convert cursor to list
-    start = time.time()
-    cursor = refactoring.find({})
-    print(len(list(cursor)))
-    end = time.time()
-    print(end - start)
+    from tqdm import tqdm
 
+    # show a progress bar while the function is running
+    for i in tqdm(range(10000000)):
+        pass
+    
+
+    
+   

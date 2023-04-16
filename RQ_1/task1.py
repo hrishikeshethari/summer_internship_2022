@@ -6,12 +6,10 @@ import multiprocessing
 #import networkx as nx
 import pymongo
 import pickle
-<<<<<<< HEAD
-=======
-
->>>>>>> 6b3191bc746e6e3cd869ae144c784a083e221921
 #from plot_commits import plot_commit
 import RQ_1.filtering_file as filtering_file
+from rq1_utils import time_fn
+import time
 
 """
 Author : Yugandhar Desai
@@ -250,6 +248,16 @@ class DivideDataset:
         elif co_change == 'issue':
             file_dict = self.make_file_issue_dict(half)
 
+        first_half_files = set(self.get_project_files(Half.FIRST))
+        second_half_files = set(self.get_project_files(Half.SECOND))
+        common_files = first_half_files.intersection(second_half_files)
+
+        files = list(file_dict.keys())
+
+        for file_id in files:
+            if file_id not in common_files:
+                del file_dict[file_id]
+
         file_combinations = list(itertools.combinations(file_dict.keys(), 2))
         #print("combinations",len(file_combinations))
         # 4M
@@ -359,6 +367,7 @@ class DivideDataset:
                 return True
         return False
     
+    @time_fn
     def get_filepair_sets(self, first_half_file_pairs, second_half_file_pairs):
         first_set = set(first_half_file_pairs)
         second_set = set(second_half_file_pairs)
@@ -384,6 +393,7 @@ class DivideDataset:
             file_paths = (file_path0['path'], file_path1['path'])
             if is_inter_module(file_paths):
                 s4.append(file_pair)
+
         set_dict = { 's1' : connected_file_pairs,
                      's2' : newly_connected_file_pairs,
                      's3' : s3,
@@ -391,6 +401,7 @@ class DivideDataset:
         
         return set_dict
 
+    @time_fn
     def file_pair_evolution(self, first_half_file_pairs, second_half_file_pairs):
         """
         Select the pairs which are connected (at least one commit exists where both files are committed together ) in the 
@@ -496,51 +507,6 @@ def is_inter_module(file_pair):
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    divide_dataset = DivideDataset("giraph")
-    start_date = divide_dataset.get_start_date()
-    end_date = divide_dataset.get_end_date()
-    # format fstrings for date
-    print(f"start date  ->  {start_date}")
-    print(f"end date  ->  {end_date}")
-    print(f"mid point date -> {divide_dataset.find_midpoint_date(start_date, end_date)}")
-    print(f" commit distribution (first half, second half) -> {divide_dataset.check_commit_distribution()}")
-    print(len(divide_dataset.get_project_files(Half.SECOND)))
-    print(f' length of commit-file dict -> {len(divide_dataset.make_commit_file_dict(Half.SECOND))}')
-    print(f" length of file-commit dict -> {len(divide_dataset.make_file_commit_dict(Half.SECOND))}")
-    first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
-    second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
-    # filter the file pairs with files which are not common in both halves
-    first_half_files = set(divide_dataset.get_project_files(Half.FIRST))
-    second_half_files = set(divide_dataset.get_project_files(Half.SECOND))
-    common_files = first_half_files.intersection(second_half_files)
-    file_pair_1 = []
-    file_pair_2 = []
-    for file_pair in first_half_file_pairs:
-        if file_pair[0] in common_files and file_pair[1] in common_files:
-            file_pair_1.append(file_pair)
-    for file_pair in second_half_file_pairs:
-        if file_pair[0] in common_files and file_pair[1] in common_files:
-            file_pair_2.append(file_pair)
-    
-    divide_dataset.file_pair_evolution(file_pair_1, file_pair_2)
-    # pickle the file pairs
-    sets_dict = divide_dataset.get_filepair_sets()
-
-    with open('giraph_file_pairs.pkl', 'wb') as f:
-        # pickle sets_dict to file
-        pickle.dump(sets_dict, f)
-
-
-
-
-    #print(divide_dataset.make_connected_file_pairs(Half.SECOND)[:10])  
-    # divide_dataset.file_pair_evolution()
-    
-    # print(len(divide_dataset.connected_file_pairs(Half.SECOND)))
-    # plot_commit('giraph')
-    # print(len(divide_dataset.connected_file_pairs(Half.SECOND)))
-=======
     projects = ['mahout', 'pdfbox', 'opennlp', 'openwebbeans', 'mina-sshd', 'helix', 'curator',
      'storm', 'cxf-fediz',
      'knox', 'zeppelin', 'samza',
@@ -549,7 +515,10 @@ if __name__ == "__main__":
      'falcon', 'deltaspike', 'calcite',
      'parquet-mr', 'tez', 'lens', 'phoenix',
      'kylin', 'ranger']
+    
     for idx, project in enumerate(projects):
+
+        start = time.time()
         print(f"--- {idx}. {project} ---")
         divide_dataset = DivideDataset(project)
         start_date = divide_dataset.get_start_date()
@@ -565,30 +534,38 @@ if __name__ == "__main__":
         # first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
         # second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
         # filter the file pairs with files which are not common in both halves
->>>>>>> 6b3191bc746e6e3cd869ae144c784a083e221921
 
         first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
         second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
 
-        first_half_files = set(divide_dataset.get_project_files(Half.FIRST))
-        second_half_files = set(divide_dataset.get_project_files(Half.SECOND))
-        common_files = first_half_files.intersection(second_half_files)
-        file_pair_1 = []
-        file_pair_2 = []
-        for file_pair in first_half_file_pairs:
-            if file_pair[0] in common_files and file_pair[1] in common_files:
-                file_pair_1.append(file_pair)
-        for file_pair in second_half_file_pairs:
-            if file_pair[0] in common_files and file_pair[1] in common_files:
-                file_pair_2.append(file_pair)
-        set_dict = divide_dataset.get_filepair_sets(file_pair_1, file_pair_2)
+        # first_half_files = set(divide_dataset.get_project_files(Half.FIRST))
+        # second_half_files = set(divide_dataset.get_project_files(Half.SECOND))
+        # common_files = first_half_files.intersection(second_half_files)
+        # file_pair_1 = []
+        # file_pair_2 = []
+        # for file_pair in first_half_file_pairs:
+        #     if file_pair[0] in common_files and file_pair[1] in common_files:
+        #         file_pair_1.append(file_pair)
+        # for file_pair in second_half_file_pairs:
+        #     if file_pair[0] in common_files and file_pair[1] in common_files:
+        #         file_pair_2.append(file_pair)
+
+        set_dict = divide_dataset.get_filepair_sets(first_half_file_pairs, second_half_file_pairs)
         # s1 = set_dict.get('s1')
         # s2 = set_dict.get('s2')
         # s3 = set_dict.get('s3')
         # s4 = set_dict.get('s4')
-        with open(f'..RQ_2/proj_file_pair_sets/{project}_file_pair_sets.pkl', 'wb') as f:
+
+        with open(f'..RQ_2/proj_file_pair_sets/{project}_file_pair_sets.pickle', 'wb') as f:
             # pickle sets_dict to file
+            pickle_msg = f'pickling {project} file pair sets'
+            print(pickle_msg)
             pickle.dump(set_dict, f)
+
+        end = time.time()
+        time_taken = end - start
+        print(f'time taken for {project} -> {time_taken}')
+        
         #divide_dataset.file_pair_evolution(file_pair_1, file_pair_2)
         #print(divide_dataset.make_connected_file_pairs(Half.SECOND)[:10])
         # divide_dataset.file_pair_evolution()
