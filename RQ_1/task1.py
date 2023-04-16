@@ -3,11 +3,12 @@ from enum import Enum
 import itertools
 import copy
 import multiprocessing
-import networkx as nx
+#import networkx as nx
 import pymongo
+import pickle
 
 #from plot_commits import plot_commit
-import filtering_file
+import RQ_1.filtering_file as filtering_file
 
 """
 Author : Yugandhar Desai
@@ -201,11 +202,14 @@ class DivideDataset:
             issue_list = []
             for commit_id in commit_list:
                 # find the issue_id of the commit_id in self.project_commits_issue
-                for commit in self.project_commits_issue:
+                for commit in self.project_commit_issue:
                     if commit_id == commit["_id"]:
-                        issue_list.extend(commit["linked_issue_ids"])
-                        issue_set.update(commit["linked_issue_ids"])
-                        avg_issue_per_file += len(commit["linked_issue_ids"])
+                        if "linked_issue_ids" in commit:
+                            issue_list.extend(commit["linked_issue_ids"])
+                            issue_set.update(commit["linked_issue_ids"])
+
+                        #avg_issue_per_file += len(commit["linked_issue_ids"])
+            file_issue_dict[file_id] = issue_list
             
         print(f'unique issue_ids in file_issue_dict for {half} : {len(issue_set)}')
         print(f'avg issue per file for {half}: {len(issue_set)/len(file_issue_dict)}')
@@ -365,11 +369,17 @@ class DivideDataset:
         s3 = []
         s4 = []
         for file_pair in first_set:
-            if is_inter_module(file_pair):
+            file_path0 = self.file.find_one({"_id": file_pair[0]}, {"path": 1})
+            file_path1 = self.file.find_one({"_id": file_pair[1]}, {"path": 1})
+            file_paths = (file_path0['path'], file_path1['path'])
+            if is_inter_module(file_paths):
                 s3.append(file_pair)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 
         for file_pair in second_set:
-            if is_inter_module(file_pair):
+            file_path0 = self.file.find_one({"_id": file_pair[0]}, {"path": 1})
+            file_path1 = self.file.find_one({"_id": file_pair[1]}, {"path": 1})
+            file_paths = (file_path0['path'], file_path1['path'])
+            if is_inter_module(file_paths):
                 s4.append(file_pair)
         set_dict = { 's1' : connected_file_pairs,
                      's2' : newly_connected_file_pairs,
@@ -483,39 +493,60 @@ def is_inter_module(file_pair):
 
 
 if __name__ == "__main__":
-    divide_dataset = DivideDataset("giraph")
-    start_date = divide_dataset.get_start_date()
-    end_date = divide_dataset.get_end_date()
-    # format fstrings for date
-    print(f"start date  ->  {start_date}")
-    print(f"end date  ->  {end_date}")
-    print(f"mid point date -> {divide_dataset.find_midpoint_date(start_date, end_date)}")
-    print(f" commit distribution (first half, second half) -> {divide_dataset.check_commit_distribution()}")
-    print(len(divide_dataset.get_project_files(Half.SECOND)))
-    print(f' length of commit-file dict -> {len(divide_dataset.make_commit_file_dict(Half.SECOND))}')
-    print(f" length of file-commit dict -> {len(divide_dataset.make_file_commit_dict(Half.SECOND))}")
-    first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
-    second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
-    # filter the file pairs with files which are not common in both halves
-    first_half_files = set(divide_dataset.get_project_files(Half.FIRST))
-    second_half_files = set(divide_dataset.get_project_files(Half.SECOND))
-    common_files = first_half_files.intersection(second_half_files)
-    file_pair_1 = []
-    file_pair_2 = []
-    for file_pair in first_half_file_pairs:
-        if file_pair[0] in common_files and file_pair[1] in common_files:
-            file_pair_1.append(file_pair)
-    for file_pair in second_half_file_pairs:
-        if file_pair[0] in common_files and file_pair[1] in common_files:
-            file_pair_2.append(file_pair)
-    
-    divide_dataset.file_pair_evolution(file_pair_1, file_pair_2)
-    #print(divide_dataset.make_connected_file_pairs(Half.SECOND)[:10])  
-    # divide_dataset.file_pair_evolution()
-    
-    # print(len(divide_dataset.connected_file_pairs(Half.SECOND)))
-    # plot_commit('giraph')
-    # print(len(divide_dataset.connected_file_pairs(Half.SECOND)))
+    projects = ['mahout', 'pdfbox', 'opennlp', 'openwebbeans', 'mina-sshd', 'helix', 'curator',
+     'storm', 'cxf-fediz',
+     'knox', 'zeppelin', 'samza',
+     'directory-kerby', 'pig', 'manifoldcf',
+     'giraph', 'bigtop', 'kafka', 'oozie',
+     'falcon', 'deltaspike', 'calcite',
+     'parquet-mr', 'tez', 'lens', 'phoenix',
+     'kylin', 'ranger']
+    for idx, project in enumerate(projects):
+        print(f"--- {idx}. {project} ---")
+        divide_dataset = DivideDataset(project)
+        start_date = divide_dataset.get_start_date()
+        end_date = divide_dataset.get_end_date()
+        # format fstrings for date
+        # print(f"start date  ->  {start_date}")
+        # print(f"end date  ->  {end_date}")
+        # print(f"mid point date -> {divide_dataset.find_midpoint_date(start_date, end_date)}")
+        # print(f" commit distribution (first half, second half) -> {divide_dataset.check_commit_distribution()}")
+        # print(len(divide_dataset.get_project_files(Half.SECOND)))
+        # print(f' length of commit-file dict -> {len(divide_dataset.make_commit_file_dict(Half.SECOND))}')
+        # print(f" length of file-commit dict -> {len(divide_dataset.make_file_commit_dict(Half.SECOND))}")
+        # first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
+        # second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
+        # filter the file pairs with files which are not common in both halves
 
-    # mongoshell command to get files which are in list of commitsissue
-    # db.
+        first_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.FIRST)
+        second_half_file_pairs = divide_dataset.make_connected_file_pairs('issue', Half.SECOND)
+
+        first_half_files = set(divide_dataset.get_project_files(Half.FIRST))
+        second_half_files = set(divide_dataset.get_project_files(Half.SECOND))
+        common_files = first_half_files.intersection(second_half_files)
+        file_pair_1 = []
+        file_pair_2 = []
+        for file_pair in first_half_file_pairs:
+            if file_pair[0] in common_files and file_pair[1] in common_files:
+                file_pair_1.append(file_pair)
+        for file_pair in second_half_file_pairs:
+            if file_pair[0] in common_files and file_pair[1] in common_files:
+                file_pair_2.append(file_pair)
+        set_dict = divide_dataset.get_filepair_sets(file_pair_1, file_pair_2)
+        # s1 = set_dict.get('s1')
+        # s2 = set_dict.get('s2')
+        # s3 = set_dict.get('s3')
+        # s4 = set_dict.get('s4')
+        with open(f'..RQ_2/proj_file_pair_sets/{project}_file_pair_sets.pkl', 'wb') as f:
+            # pickle sets_dict to file
+            pickle.dump(set_dict, f)
+        #divide_dataset.file_pair_evolution(file_pair_1, file_pair_2)
+        #print(divide_dataset.make_connected_file_pairs(Half.SECOND)[:10])
+        # divide_dataset.file_pair_evolution()
+
+        # print(len(divide_dataset.connected_file_pairs(Half.SECOND)))
+        # plot_commit('giraph')
+        # print(len(divide_dataset.connected_file_pairs(Half.SECOND)))
+
+        # mongoshell command to get files which are in list of commitsissue
+        # db.
